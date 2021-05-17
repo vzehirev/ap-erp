@@ -29,6 +29,9 @@
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ route('register') }}">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Христо</a>
                     </li>
                     <li class="nav-item">
@@ -38,7 +41,7 @@
             </div>
         </div>
     </nav>
-    @yield('myview')
+    @yield('content')
 </body>
 
 </html>
