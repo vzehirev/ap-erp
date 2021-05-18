@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Users\RegisterController;
-use App\Http\Controllers\Home\IndexController;
+use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\Home\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +15,12 @@ use App\Http\Controllers\Home\IndexController;
 |
 */
 
-Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'getHome'])->middleware('auth');
 
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register', [UsersController::class, 'getRegister'])->middleware('guest');
+Route::post('/register', [UsersController::class, 'postRegister'])->middleware('guest');
 
+Route::get('/login', [UsersController::class, 'getLogin'])->middleware('guest');
+Route::post('/login', [UsersController::class, 'postLogin'])->middleware('guest');
+
+Route::post('/logout', [UsersController::class, 'postLogout'])->middleware('auth');

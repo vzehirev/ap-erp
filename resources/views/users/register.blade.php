@@ -2,7 +2,10 @@
 
 @section('content')
 
-<form class="col-8 col-md-4 text-center mx-auto mt-5" action="{{ route('register') }}" method="post">
+<h2 class="text-center mt-3">Регистрирай се</h2>
+
+<form class="col-8 col-md-4 text-center mx-auto mt-5" action="/register" method="post">
+
     @csrf
 
     <div class="mb-5">

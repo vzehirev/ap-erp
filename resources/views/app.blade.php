@@ -12,6 +12,8 @@
 </head>
 
 <body>
+
+    @auth
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">{{ env('APP_NAME') }}</a>
@@ -29,18 +31,23 @@
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ route('register') }}">Регистрация</a>
+                        <a class="nav-link" aria-current="page" href="/register">Регистрация</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Христо</a>
+                        <a class="nav-link" aria-current="page" href="#">{{ auth()->user()->username }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Излез</a>
+                        <form action="/logout" method="post">
+                            @csrf
+                            <button class="nav-link border-0 bg-transparent" type="submit">Излез</button>
+                        </form>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    @endauth
+
     @yield('content')
 </body>
 
