@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -40,4 +42,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function setPasswordAttribute($password)
+    {
+        return $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
+    }
+
+    function loginUser($request)
+    {
+        $email = '';
+
+        if (filter_var($request['username_or_email'], FILTER_VALIDATE_EMAIL)) {
+            $email = $request['username_or_email'];
+        } else {
+            try {
+                $email = User::where('username', $request['username_or_email'])->first()->email;
+            } catch (Exception $ex) {
+                Log::error($ex);
+                return false;
+            }
+        }
+
+        return auth()->attempt(
+            [
+                'email' => $email,
+                'password' => $request['password'],
+            ],
+            $request['remember_me'] ?? false,
+        );
+    }
 }

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Materials\MaterialController;
+use App\Http\Controllers\Others\OthersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +17,23 @@ use App\Http\Controllers\Home\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'getHome'])->middleware('auth');
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [UsersController::class, 'getRegister']);
+    Route::post('/register', [UsersController::class, 'postRegister']);
 
-Route::get('/register', [UsersController::class, 'getRegister'])->middleware('guest');
-Route::post('/register', [UsersController::class, 'postRegister'])->middleware('guest');
+    Route::get('/login', [UsersController::class, 'getLogin']);
+    Route::post('/login', [UsersController::class, 'postLogin']);
+});
 
-Route::get('/login', [UsersController::class, 'getLogin'])->middleware('guest');
-Route::post('/login', [UsersController::class, 'postLogin'])->middleware('guest');
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'getHome']);
 
-Route::post('/logout', [UsersController::class, 'postLogout'])->middleware('auth');
+    Route::post('/logout', [UsersController::class, 'postLogout']);
+
+    Route::get('/bought-materials', [MaterialController::class, 'getBoughtMaterials']);
+    Route::post('/bought-materials', [MaterialController::class, 'postBoughtMaterials']);
+
+    Route::get('/others', [OthersController::class, 'getOthers']);
+    Route::post('/add-partner', [OthersController::class, 'addPartner']);
+    Route::post('/add-product', [OthersController::class, 'addProduct']);
+});
