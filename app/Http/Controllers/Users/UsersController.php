@@ -3,47 +3,40 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostLoginRequest;
-use App\Http\Requests\PostRegisterRequest;
+use App\Http\Requests\StoreLoginRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 
 
 class UsersController extends Controller
 {
-    private $user;
-
-    function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
-    function getRegister()
+    function indexRegister()
     {
         return view('users.register');
     }
 
-    function postRegister(PostRegisterRequest $request)
+    function storeRegister(StoreUserRequest $request)
     {
         User::create($request->validated());
 
         return redirect('/login');
     }
 
-    function getLogin()
+    function indexLogin()
     {
         return view('users.login');
     }
 
-    function postLogin(PostLoginRequest $request)
+    function storeLogin(StoreLoginRequest $request)
     {
-        if (!$this->user->loginUser($request->all())) {
+        if (User::login($request->all())) {
             return back()->with('error', 'Неуспешен опит за вход в системата.');
         }
 
         return redirect()->intended();
     }
 
-    function postLogout()
+    function storeLogout()
     {
         auth()->logout();
 

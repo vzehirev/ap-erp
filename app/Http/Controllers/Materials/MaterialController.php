@@ -10,15 +10,16 @@ use App\Models\Product;
 
 class MaterialController extends Controller
 {
-    function getBoughtMaterials()
+    function index()
     {
         $partners = Partner::orderBy('name', 'asc')->get();
         $products = Product::orderBy('name', 'asc')->get();
+        $boughtMaterials = BoughtMaterial::orderBy('bought_on', 'desc')->with('product', 'partner')->paginate(100);
 
-        return view('materials.bought-materials', ['partners' => $partners, 'products' => $products]);
+        return view('materials.index', ['partners' => $partners, 'products' => $products, 'boughtMaterials' => $boughtMaterials]);
     }
 
-    function postBoughtMaterials(BuyMaterialRequest $request)
+    function store(BuyMaterialRequest $request)
     {
         BoughtMaterial::create($request->all());
 

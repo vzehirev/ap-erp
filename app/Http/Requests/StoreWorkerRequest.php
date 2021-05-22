@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddPartnerRequest extends FormRequest
+class StoreWorkerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +27,4 @@ class AddPartnerRequest extends FormRequest
             'name' => 'required',
         ];
     }
-
-    public function messages()
-{
-    return [
-        'result' => 'A title is required',
-    ];
-}
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Materials\MaterialController;
 use App\Http\Controllers\Others\OthersController;
+use App\Http\Controllers\Sorting\SortingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,22 +19,26 @@ use App\Http\Controllers\Others\OthersController;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [UsersController::class, 'getRegister']);
-    Route::post('/register', [UsersController::class, 'postRegister']);
+    Route::get('/register', [UsersController::class, 'indexRegister']);
+    Route::post('/register', [UsersController::class, 'storeRegister']);
 
-    Route::get('/login', [UsersController::class, 'getLogin']);
-    Route::post('/login', [UsersController::class, 'postLogin']);
+    Route::get('/login', [UsersController::class, 'indexLogin']);
+    Route::post('/login', [UsersController::class, 'storeLogin']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [HomeController::class, 'getHome']);
+    Route::get('/', [HomeController::class, 'index']);
 
-    Route::post('/logout', [UsersController::class, 'postLogout']);
+    Route::post('/logout', [UsersController::class, 'storeLogout']);
 
-    Route::get('/bought-materials', [MaterialController::class, 'getBoughtMaterials']);
-    Route::post('/bought-materials', [MaterialController::class, 'postBoughtMaterials']);
+    Route::get('/bought-materials', [MaterialController::class, 'index']);
+    Route::post('/bought-materials', [MaterialController::class, 'store']);
 
-    Route::get('/others', [OthersController::class, 'getOthers']);
-    Route::post('/add-partner', [OthersController::class, 'addPartner']);
-    Route::post('/add-product', [OthersController::class, 'addProduct']);
+    Route::get('/others', [OthersController::class, 'index']);
+    Route::post('/add-partner', [OthersController::class, 'storePartner']);
+    Route::post('/add-product', [OthersController::class, 'storeProduct']);
+    Route::post('/add-worker', [OthersController::class, 'storeWorker']);
+
+    Route::get('/sorted-material', [SortingController::class, 'index']);
+    Route::post('/sorted-material', [SortingController::class, 'store']);
 });

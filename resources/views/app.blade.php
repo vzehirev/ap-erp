@@ -35,6 +35,9 @@
                             <a class="nav-link" href="/bought-materials">Закупен материал</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/sorted-material">Сортиране</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/others">Други</a>
                         </li>
                     </ul>

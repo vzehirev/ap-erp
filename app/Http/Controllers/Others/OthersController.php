@@ -3,29 +3,38 @@
 namespace App\Http\Controllers\Others;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddPartnerRequest;
-use App\Http\Requests\AddProductRequest;
+use App\Http\Requests\StorePartnerRequest;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreWorkerRequest;
 use App\Models\Partner;
 use App\Models\Product;
+use App\Models\Worker;
 
 class OthersController extends Controller
 {
-    function getOthers()
+    function index()
     {
         return view('others.index');
     }
 
-    function addPartner(AddPartnerRequest $request)
+    function storePartner(StorePartnerRequest $request)
     {
         Partner::create($request->all());
 
         return back()->with('success', 'Успешно добавен партньор.');
     }
 
-    function addProduct(AddProductRequest $request)
+    function storeProduct(StoreProductRequest $request)
     {
         Product::create($request->all());
 
         return back()->with('success', 'Успешно добавен продукт.');
+    }
+
+    function storeWorker(StoreWorkerRequest $request)
+    {
+        Worker::create($request->all());
+
+        return back()->with('success', 'Успешно добавен служител.');
     }
 }

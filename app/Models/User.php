@@ -48,7 +48,7 @@ class User extends Authenticatable
         return $this->attributes['password'] = Hash::needsRehash($password) ? Hash::make($password) : $password;
     }
 
-    function loginUser($request)
+    static function login($request)
     {
         $email = '';
 

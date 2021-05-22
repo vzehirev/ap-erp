@@ -2,17 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Product extends Model
+class Product extends NoTimestampsModel
 {
-    use HasFactory;
+    protected $fillable = ['name', 'code',];
 
-    protected $fillable = [
-        'name',
-        'code',
-    ];
-
-    public $timestamps = false;
+    function boughtMaterials()
+    {
+        return $this->hasMany(BoughtMaterial::class);
+    }
 }

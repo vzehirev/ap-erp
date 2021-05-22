@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Home;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    function getHome()
+    function index()
     {
-        return view('home.home');
+        return view('home.index');
     }
 }
