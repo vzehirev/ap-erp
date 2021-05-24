@@ -47,7 +47,13 @@
                             <a class="nav-link" href="/sold-material">Продаден материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/expеnses">Разходи</a>
+                            <a class="nav-link" href="/expenses">Разходи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/salaries">Заплати</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/prepaid">Предплатени</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/others">Други</a>
