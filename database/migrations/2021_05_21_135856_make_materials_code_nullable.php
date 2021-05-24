@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameProductsTypeColumnToName extends Migration
+class MakeMaterialsCodeNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class RenameProductsTypeColumnToName extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->renameColumn('type', 'name');
+        Schema::table('materials', function (Blueprint $table) {
+            $table->string('code')->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ class RenameProductsTypeColumnToName extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->renameColumn('name', 'type');
+        Schema::table('materials', function (Blueprint $table) {
+            $table->string('code')->nullable(false)->change();
         });
     }
 }

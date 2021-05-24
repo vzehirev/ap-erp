@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Carbon\Carbon;
 
-class BoughtMaterial extends NoTimestampsModel
+class SoldMaterial extends NoTimestampsModel
 {
-    protected $fillable = ['bought_on', 'partner_id', 'price', 'quantity', 'material_id', 'invoice_num'];
+    protected $fillable = ['sold_on', 'partner_id', 'material_id', 'quantity', 'price', 'paid', 'invoice_num'];
 
-    function getBoughtOnAttribute($value)
+    function getSoldOnAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }

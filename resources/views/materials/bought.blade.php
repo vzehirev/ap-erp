@@ -2,81 +2,66 @@
 
 @section('content')
 
-    @if ($errors->any())
-        <div class="alert alert-danger w-50 mx-auto my-3 text-center" role="alert">Грешка, моля опитайте отново.</div>
-    @endif
-
     @if (session('success'))
         <div class="alert alert-success w-50 mx-auto my-3 text-center" role="alert">{{ session('success') }}</div>
     @endif
 
-    {{-- Buy product form --}}
+    {{-- Buy material form --}}
     <div class="container d-flex flex-column align-items-center mt-3">
-        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#buy-material-modal">
+        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeBoughtMaterial">
             Добави закупен материал
         </button>
-        <div class="modal fade" id="buy-material-modal" tabindex="-1" aria-labelledby="buy-material-modal-label"
+        <div class="modal fade" id="storeBoughtMaterial" tabindex="-1" aria-labelledby="storeBoughtMaterialLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="buy-material-modal-label">Добави закупен материал</h5>
+                        <h5 class="modal-title" id="storeBoughtMaterialLabel">Добави закупен материал</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
                     <div class="modal-body">
-                        <form class="d-flex text-center flex-column" action="/bought-materials" method="post">
+
+                        @if ($errors->hasBag('storeBoughtMaterial'))
+                            <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
+                                @foreach ($errors->storeBoughtMaterial->all() as $message)
+                                    <p class="mb-0">{{ $message }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <form class="d-flex text-center flex-column" action="/bought-material" method="post">
                             @csrf
                             <div class="m-3">
                                 <label for="bought_on" class="form-label">Закупен на</label>
-                                <input type="date" class="form-control @error('bought_on') border border-danger @enderror"
-                                    id="bought_on" name="bought_on">
-                                @error('bought_on')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                                <input type="date" class="form-control" id="bought_on" name="bought_on">
                             </div>
                             <div class="m-3">
                                 <label for="partner_id" class="form-label">Закупен от</label>
-                                <select class="form-select @error('partner_id') border border-danger @enderror"
-                                    id="partner_id" name="partner_id">
+                                <select class="form-select" id="partner_id" name="partner_id">
                                     <option selected>Избери партньор</option>
                                     @foreach ($partners as $partner)
                                         <option value="{{ $partner->id }}">{{ $partner->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('partner_id')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="m-3">
                                 <label for="price" class="form-label">Цена</label>
-                                <input type="text" class="form-control @error('price') border border-danger @enderror"
-                                    id="price" name="price">
-                                @error('price')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                                <input type="text" class="form-control" id="price" name="price">
                             </div>
                             <div class="m-3">
                                 <label for="quantity" class="form-label">Количество</label>
-                                <input type="text" class="form-control @error('quantity') border border-danger @enderror"
-                                    id="quantity" name="quantity">
-                                @error('quantity')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                                <input type="text" class="form-control" id="quantity" name="quantity">
                             </div>
                             <div class="m-3">
-                                <label for="product_id" class="form-label">Закупен продукт</label>
-                                <select class="form-select @error('product_id') border border-danger @enderror"
-                                    id="product_id" name="product_id">
-                                    <option selected>Избери продукт</option>
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}">
-                                            {{ $product->code ? "$product->name" . " ($product->code)" : "$product->name" }}
+                                <label for="material_id" class="form-label">Закупен материал</label>
+                                <select class="form-select" id="material_id" name="material_id">
+                                    <option selected>Избери материал</option>
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material->id }}">
+                                            {{ $material->code ? "$material->name" . " ($material->code)" : "$material->name" }}
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('product_id')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="m-3">
                                 <label for="invoice_num" class="form-label">Номер на фактура</label>
@@ -98,7 +83,7 @@
             <thead>
                 <tr>
                     <th scope="col">Закупен на</th>
-                    <th scope="col">Продукт</th>
+                    <th scope="col">Материал</th>
                     <th scope="col">Код</th>
                     <th scope="col">Партньор</th>
                     <th scope="col">Цена</th>
@@ -110,9 +95,9 @@
                 @foreach ($boughtMaterials as $boughtMaterial)
                     <tr>
                         <td>{{ $boughtMaterial->bought_on }}</td>
-                        <td> {{ $boughtMaterial->product->name }}
+                        <td> {{ $boughtMaterial->material->name }}
                         </td>
-                        <td>{{ $boughtMaterial->product->code }}</td>
+                        <td>{{ $boughtMaterial->material->code }}</td>
                         <td>{{ $boughtMaterial->partner->name }}</td>
                         <td>{{ $boughtMaterial->price }}</td>
                         <td>{{ $boughtMaterial->quantity }}</td>
@@ -147,4 +132,12 @@
         </nav>
 
     </div>
+
+    {{-- Automatically show the modal, if form validaiton fails --}}
+    @if (count($errors->getBags()) > 0)
+        <script>
+            showModal("{{ array_key_first($errors->getBags()) }}");
+
+        </script>
+    @endif
 @endsection

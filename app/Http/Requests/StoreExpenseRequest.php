@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBoughtMaterialRequest extends FormRequest
+class StoreExpenseRequest extends FormRequest
 {
-    protected $errorBag = 'storeBoughtMaterial';
+    protected $errorBag = 'storeExpense';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,9 @@ class StoreBoughtMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'bought_on' => 'required|date',
-            'partner_id' => 'required|integer',
+            'made_on' => 'required|date',
+            'type' => 'required|string',
             'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'material_id' => 'required|integer',
         ];
     }
 }

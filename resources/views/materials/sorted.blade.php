@@ -2,71 +2,65 @@
 
 @section('content')
 
-    @if ($errors->any())
-        <div class="alert alert-danger w-50 mx-auto my-3 text-center" role="alert">Грешка, моля опитайте отново.</div>
-    @endif
-
     @if (session('success'))
         <div class="alert alert-success w-50 mx-auto my-3 text-center" role="alert">{{ session('success') }}</div>
     @endif
 
     {{-- Store sorted material --}}
     <div class="container d-flex flex-column align-items-center mt-3">
-        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#sorted-material-modal">
+        <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeSortedMaterial">
             Добави сортиран материал
         </button>
-        <div class="modal fade" id="sorted-material-modal" tabindex="-1" aria-labelledby="sorted-material-modal-label"
+        <div class="modal fade" id="storeSortedMaterial" tabindex="-1" aria-labelledby="storeSortedMaterialLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="sorted-material-modal-label">Добави сортиран материал</h5>
+                        <h5 class="modal-title" id="storeSortedMaterialLabel">Добави сортиран материал</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
                     <div class="modal-body">
+                        @if ($errors->hasBag('storeSortedMaterial'))
+                            <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
+                                @foreach ($errors->storeSortedMaterial->all() as $message)
+                                    <p class="mb-0">{{ $message }}</p>
+                                @endforeach
+                            </div>
+                        @endif
                         <form class="d-flex text-center flex-column" action="/sorted-material" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="sorted_on" class="form-label">Сортирано на</label>
-                                <input type="date" class="form-control @error('sorted_on') border border-danger @enderror"
-                                    id="sorted_on" name="sorted_on">
-                                @error('sorted_on')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                                <label for="sorted_on" class="form-label">Сортиран на</label>
+                                <input type="date" class="form-control" id="sorted_on" name="sorted_on"
+                                    value="{{ old('sorted_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="partner_id" class="form-label">Партньор</label>
-                                <select class="form-select @error('partner_id') border border-danger @enderror"
-                                    id="partner_id" name="partner_id">
+                                <label for="partner_id" class="form-label">Закупен от</label>
+                                <select class="form-select" id="partner_id" name="partner_id">
                                     <option selected>Избери партньор</option>
                                     @foreach ($partners as $partner)
-                                        <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                        <option value="{{ $partner->id }}"
+                                            {{ old('partner_id') == $partner->id ? 'selected' : '' }}>
+                                            {{ $partner->name }}
+                                        </option>
                                     @endforeach
                                 </select>
-                                @error('partner_id')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Служител</label>
-                                <select class="form-select @error('worker_id') border border-danger @enderror"
-                                    id="worker_id" name="worker_id">
+                                <label for="worker_id" class="form-label">Сортиран от</label>
+                                <select class="form-select" id="worker_id" name="worker_id">
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
-                                        <option value="{{ $worker->id }}">{{ $worker->name }}</option>
+                                        <option value="{{ $worker->id }}"
+                                            {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
+                                        </option>
                                     @endforeach
                                 </select>
-                                @error('worker_id')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Количество</label>
-                                <input type="text" class="form-control @error('quantity') border border-danger @enderror"
-                                    id="quantity" name="quantity">
-                                @error('quantity')
-                                    <p class="text-danger mt-1">{{ $message }}</p>
-                                @enderror
+                                <label for="quantity" class="form-label">Сортирано количество</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity"
+                                    value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -80,13 +74,13 @@
         </div>
 
         {{-- Sorted material table --}}
-        {{-- <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Сортирано на</th>
-                    <th scope="col">Партньор</th>
-                    <th scope="col">Сортирано от</th>
-                    <th scope="col">Количество</th>
+                    <th scope="col">Сортиран на</th>
+                    <th scope="col">Закупен от</th>
+                    <th scope="col">Сортиран от</th>
+                    <th scope="col">Сортирано количество</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,16 +88,16 @@
                     <tr>
                         <td>{{ $sortedMaterial->sorted_on }}</td>
                         <td>{{ $sortedMaterial->partner->name }}</td>
-                        <td>{{ $sortedMaterial->quantity }}</td>
                         <td>{{ $sortedMaterial->worker->name }}
+                        <td>{{ $sortedMaterial->quantity }}</td>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
-        </table> --}}
+        </table>
 
         {{-- Pagination --}}
-        {{-- <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item">
                     <a class="page-link" href="?page=1" aria-label="Previous">
@@ -124,7 +118,15 @@
                     </a>
                 </li>
             </ul>
-        </nav> --}}
+        </nav>
 
     </div>
+
+    {{-- Automatically show the modal, if form validaiton fails --}}
+    @if (count($errors->getBags()) > 0)
+        <script>
+            showModal("{{ array_key_first($errors->getBags()) }}");
+
+        </script>
+    @endif
 @endsection

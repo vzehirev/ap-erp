@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakeProductsCodeNullable extends Migration
+class CreateMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class MakeProductsCodeNullable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('code')->nullable()->change();
+        Schema::create('materials', function (Blueprint $table) {
+            $table->id();
+            $table->string('type');
+            $table->string('code');
         });
     }
 
@@ -25,8 +27,6 @@ class MakeProductsCodeNullable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('code')->nullable(false)->change();
-        });
+        Schema::dropIfExists('materials');
     }
 }

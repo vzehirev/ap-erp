@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Product extends NoTimestampsModel
+class Material extends NoTimestampsModel
 {
     protected $fillable = ['name', 'code',];
 

@@ -13,14 +13,14 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
 </head>
 
 <body>
-
     @auth
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">{{ env('APP_NAME') }}</a>
+                <a class="navbar-brand" href="/">{{ env('APP_NAME') }}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -29,22 +29,31 @@
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Начало</a>
+                            <a class="nav-link" href="/bought-material">Закупен материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/bought-materials">Закупен материал</a>
+                            <a class="nav-link" href="/sorted-material">Сортиран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sorted-material">Сортиране</a>
+                            <a class="nav-link" href="/ground-material">Смлян материал</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/washed-material">Изпран материал</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/granular-material">Гранулиран материал</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/sold-material">Продаден материал</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/expеnses">Разходи</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/others">Други</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/register">Регистрация</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="#">{{ auth()->user()->username }}</a>
                         </li>
@@ -59,7 +68,6 @@
             </div>
         </nav>
     @endauth
-
     @yield('content')
 </body>
 

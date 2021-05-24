@@ -4,8 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class StoreWashedMaterialRequest extends FormRequest
 {
+    protected $errorBag = 'storeWashedMaterial';
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,7 +26,11 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'washed_on' => 'required|date',
+            'worker_id' => 'required|integer',
+            'from_material_id' => 'required|integer',
+            'quantity' => 'required|numeric',
+            'to_material_id' => 'required|integer',
         ];
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductsTable extends Migration
+class CreateGranularMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('granular_materials', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('code');
+            $table->date('granular_on');
+            $table->foreignId('worker_id')->constrained();
+            $table->foreignId('material_id')->constrained();
+            $table->double('quantity');
         });
     }
 
@@ -27,6 +29,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('granular_materials');
     }
 }

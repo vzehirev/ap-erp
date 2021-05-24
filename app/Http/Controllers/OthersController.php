@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Others;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePartnerRequest;
-use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\StoreWorkerRequest;
 use App\Models\Partner;
-use App\Models\Product;
+use App\Models\Material;
 use App\Models\Worker;
 
 class OthersController extends Controller
@@ -24,11 +24,11 @@ class OthersController extends Controller
         return back()->with('success', 'Успешно добавен партньор.');
     }
 
-    function storeProduct(StoreProductRequest $request)
+    function storeMaterial(StoreMaterialRequest $request)
     {
-        Product::create($request->all());
+        Material::create($request->all());
 
-        return back()->with('success', 'Успешно добавен продукт.');
+        return back()->with('success', 'Успешно добавен материал.');
     }
 
     function storeWorker(StoreWorkerRequest $request)
