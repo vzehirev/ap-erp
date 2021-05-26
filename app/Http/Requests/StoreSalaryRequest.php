@@ -26,10 +26,10 @@ class StoreSalaryRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|date',
-            'worker_id' => 'required|integer',
-            'paid' => 'required|boolean',
-            'price' => 'required|numeric',
+            'date' => ['required', 'date'],
+            'worker_id' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
+            'paid' => ['nullable', 'boolean'],
         ];
     }
 }

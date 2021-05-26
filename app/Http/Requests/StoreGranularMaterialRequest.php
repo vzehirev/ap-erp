@@ -26,10 +26,10 @@ class StoreGranularMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'granular_on' => 'required|date',
-            'worker_id' => 'required|integer',
-            'material_id' => 'required|integer',
-            'quantity' => 'required|numeric',
+            'granular_on' => ['required', 'date'],
+            'worker_id' => ['required', 'integer'],
+            'quantity' => ['required', 'numeric'],
+            'material_id' => ['required', 'integer'],
         ];
     }
 }

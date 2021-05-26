@@ -26,11 +26,11 @@ class StoreWashedMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'washed_on' => 'required|date',
-            'worker_id' => 'required|integer',
-            'from_material_id' => 'required|integer',
-            'quantity' => 'required|numeric',
-            'to_material_id' => 'required|integer',
+            'washed_on' => ['required', 'date'],
+            'worker_id' => ['required', 'integer'],
+            'from_material_id' => ['required', 'integer'],
+            'quantity' => ['required', 'numeric'],
+            'to_material_id' => ['required', 'integer'],
         ];
     }
 }

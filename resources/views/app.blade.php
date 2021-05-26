@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анхрима Пласт ERP</title>
+    <title>{{ env('APP_NAME') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
@@ -18,63 +18,73 @@
 
 <body>
     @auth
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-xxl navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/">{{ env('APP_NAME') }}</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+
+                <a href="/"><img src="{{ asset('/favicon.ico') }}"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/bought-material">Закупен материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'bought-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/bought-material">Закупен материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sorted-material">Сортиран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'sorted-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/sorted-material">Сортиран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/ground-material">Смлян материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'ground-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/ground-material">Смлян материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/washed-material">Изпран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'washed-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/washed-material">Изпран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/granular-material">Гранулиран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'granular-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/granular-material">Гранулиран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/sold-material">Продаден материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'sold-material' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/sold-material">Продаден материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/expenses">Разходи</a>
+                            <a class="nav-link text-center {{ Request::path() == 'expenses' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/expenses">Разходи</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/salaries">Заплати</a>
+                            <a class="nav-link text-center {{ Request::path() == 'salaries' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/salaries">Заплати</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/prepaid">Предплатени</a>
+                            <a class="nav-link text-center {{ Request::path() == 'prepaid' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/prepaid">Предплатени</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/others">Други</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">{{ auth()->user()->username }}</a>
+                            <a class="nav-link text-center {{ Request::path() == 'reports' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/reports">Отчети</a>
                         </li>
                         <li class="nav-item">
-                            <form action="/logout" method="post">
-                                @csrf
-                                <button class="nav-link border-0 bg-transparent" type="submit">Излез</button>
-                            </form>
+                            <a class="nav-link text-center {{ Request::path() == 'others' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/others">Други</a>
                         </li>
+                        <form class="nav-item" action="/logout" method="post">
+                            @csrf
+                            <button class="nav-link border-0 bg-transparent text-center mx-auto"
+                                type="submit">ИЗХОД</button>
+                        </form>
                     </ul>
                 </div>
             </div>
         </nav>
     @endauth
+
     @yield('content')
+
 </body>
 
 </html>

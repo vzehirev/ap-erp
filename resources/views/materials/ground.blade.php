@@ -7,12 +7,11 @@
     @endif
 
     {{-- Store sorted material --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeGroundMaterial">
-            Добави смлян материал
+            Добави смлян материал +
         </button>
-        <div class="modal fade" id="storeGroundMaterial" tabindex="-1" aria-labelledby="storeGroundMaterialLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="storeGroundMaterial" tabindex="-1" aria-labelledby="storeGroundMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -20,6 +19,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
                     <div class="modal-body">
+
                         @if ($errors->hasBag('storeGroundMaterial'))
                             <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                                 @foreach ($errors->storeGroundMaterial->all() as $message)
@@ -27,10 +27,11 @@
                                 @endforeach
                             </div>
                         @endif
+
                         <form class="d-flex text-center flex-column" action="/ground-material" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="ground_on" class="form-label">Смлян на</label>
+                                <label for="ground_on" class="form-label">Дата</label>
                                 <input type="date" class="form-control" id="ground_on" name="ground_on"
                                     value="{{ old('ground_on') }}">
                             </div>
@@ -53,11 +54,11 @@
                             <div class="m-3">
                                 <label for="material_id" class="form-label">Получен материал</label>
                                 <select class="form-select" id="material_id" name="material_id">
-                                    <option selected>Избери получен материал</option>
+                                    <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('material_id') == $material->id ? 'selected' : '' }}>
-                                            {{ $material->name }}
+                                            {{ $material->name_and_code }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -74,59 +75,27 @@
         </div>
 
         {{-- Sorted material table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Смлян на</th>
-                    <th scope="col">Смлян от</th>
-                    <th scope="col">Смляно количество</th>
-                    <th scope="col">Получен материал</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($groundMaterials as $groundMaterial)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $groundMaterial->ground_on }}</td>
-                        <td>{{ $groundMaterial->worker->name }}
-                        <td>{{ $groundMaterial->quantity }}</td>
-                        <td>{{ $groundMaterial->material->name }}</td>
-                        </td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Смлян от</th>
+                        <th scope="col">Смляно количество</th>
+                        <th scope="col">Получен материал</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $groundMaterials->currentPage() - 2; $page <= $groundMaterials->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $groundMaterials->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($groundMaterials->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $groundMaterials->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-    </div>
-
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
-
-        </script>
-    @endif
+                </thead>
+                <tbody>
+                    @foreach ($groundMaterials as $groundMaterial)
+                        <tr>
+                            <td>{{ $groundMaterial->ground_on }}</td>
+                            <td>{{ $groundMaterial->worker->name }}
+                            <td>{{ $groundMaterial->quantity }}</td>
+                            <td>{{ $groundMaterial->material->name_and_code }}</td>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 @endsection

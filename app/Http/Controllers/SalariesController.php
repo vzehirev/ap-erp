@@ -18,7 +18,7 @@ class SalariesController extends Controller
 
     function store(StoreSalaryRequest $request)
     {
-        Salary::create($request->all());
+        Salary::create($request->validated());
 
         return back()->with('success', 'Успешно добавена заплата.');
     }

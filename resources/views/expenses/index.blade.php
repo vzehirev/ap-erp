@@ -7,11 +7,11 @@
     @endif
 
     {{-- Buy material form --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeExpense">
-            Добави разход
+            Добави разход +
         </button>
-        <div class="modal fade" id="storeExpense" tabindex="-1" aria-labelledby="storeExpenseLabel" aria-hidden="true">
+        <div class="modal fade" id="storeExpense" tabindex="-1" aria-labelledby="storeExpenseLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -32,15 +32,17 @@
                             @csrf
                             <div class="m-3">
                                 <label for="made_on" class="form-label">Дата</label>
-                                <input type="date" class="form-control" id="made_on" name="made_on">
+                                <input type="date" class="form-control" id="made_on" name="made_on"
+                                    value="{{ old('made_on') }}">
+                            </div>
+                            <div class="m-3">
+                                <label for="type" class="form-label">Вид/Тип разход</label>
+                                <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}">
                             </div>
                             <div class="m-3">
                                 <label for="price" class="form-label">Цена</label>
-                                <input type="text" class="form-control" id="price" name="price">
-                            </div>
-                            <div class="m-3">
-                                <label for="type" class="form-label">Вид</label>
-                                <input type="text" class="form-control" id="type" name="type">
+                                <input type="text" class="form-control" id="price" name="price"
+                                    value="{{ old('price') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -54,56 +56,31 @@
         </div>
 
         {{-- Bought materials table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Вид</th>
-                    <th scope="col">Цена</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($madeExpenses as $madeExpense)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $madeExpense->made_on }}</td>
-                        <td>{{ $madeExpense->type }}</td>
-                        <td>{{ $madeExpense->price }}</td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Вид разход</th>
+                        <th scope="col">Цена</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($madeExpenses as $madeExpense)
+                        <tr>
+                            <td>{{ $madeExpense->made_on }}</td>
+                            <td>{{ $madeExpense->type }}</td>
+                            <td>{{ $madeExpense->price }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $madeExpenses->currentPage() - 2; $page <= $madeExpenses->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $madeExpenses->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($madeExpenses->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $madeExpenses->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <x-pagination :lengthAwarePaginator="$madeExpenses" />
 
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

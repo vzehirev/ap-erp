@@ -26,11 +26,12 @@ class StoreBoughtMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'bought_on' => 'required|date',
-            'partner_id' => 'required|integer',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'material_id' => 'required|integer',
+            'bought_on' => ['required', 'date'],
+            'partner_id' => ['required', 'integer'],
+            'material_id' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'invoice_num' => ['nullable', 'string'],
         ];
     }
 }

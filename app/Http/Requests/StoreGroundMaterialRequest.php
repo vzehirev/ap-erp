@@ -26,9 +26,10 @@ class StoreGroundMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'ground_on' => 'required|date',
-            'worker_id' => 'required|integer',
-            'material_id' => 'required|integer',
+            'ground_on' => ['required', 'date'],
+            'worker_id' => ['required', 'integer'],
+            'quantity' => ['required', 'numeric'],
+            'material_id' => ['required', 'integer'],
         ];
     }
 }

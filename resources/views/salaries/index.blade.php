@@ -7,11 +7,11 @@
     @endif
 
     {{-- Buy material form --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeSalary">
-            Добави заплата
+            Добави заплата +
         </button>
-        <div class="modal fade" id="storeSalary" tabindex="-1" aria-labelledby="storeSalaryLabel" aria-hidden="true">
+        <div class="modal fade" id="storeSalary" tabindex="-1" aria-labelledby="storeSalaryLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -32,7 +32,7 @@
                             @csrf
                             <div class="m-3">
                                 <label for="date" class="form-label">Дата</label>
-                                <input type="date" class="form-control" id="date" name="date">
+                                <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}">
                             </div>
                             <div class="m-3">
                                 <label for="worker_id" class="form-label">Служител</label>
@@ -46,12 +46,14 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Цена</label>
-                                <input type="text" class="form-control" id="price" name="price">
+                                <label for="price" class="form-label">Сума</label>
+                                <input type="text" class="form-control" id="price" name="price"
+                                    value="{{ old('price') }}">
                             </div>
                             <div class="m-3">
-                                <label for="paid" class="form-label">Платено</label>
-                                <input type="text" class="form-control" id="paid" name="paid">
+                                <input class="form-check-input" type="checkbox" id="paid" name="paid" value="1"
+                                    {{ old('paid') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="flexCheckDefault">Платена</label>
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -65,58 +67,33 @@
         </div>
 
         {{-- Bought materials table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Служител</th>
-                    <th scope="col">Платено</th>
-                    <th scope="col">Сума</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($salaries as $salary)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $salary->date }}</td>
-                        <td>{{ $salary->worker->name }}</td>
-                        <td>{{ $salary->price }}</td>
-                        <td>{{ $salary->paid }}</td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Служител</th>
+                        <th scope="col">Сума</th>
+                        <th scope="col">Платена</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($salaries as $salary)
+                        <tr>
+                            <td>{{ $salary->date }}</td>
+                            <td>{{ $salary->worker->name }}</td>
+                            <td>{{ $salary->price }}</td>
+                            <td>{{ $salary->paid ? 'Да' : 'Не' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $salaries->currentPage() - 2; $page <= $salaries->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $salaries->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($salaries->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $salaries->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <x-pagination :lengthAwarePaginator="$salaries" />
 
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

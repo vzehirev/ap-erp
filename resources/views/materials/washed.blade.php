@@ -7,12 +7,11 @@
     @endif
 
     {{-- Store sorted material --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeWashedMaterial">
-            Добави изпран материал
+            Добави изпран материал +
         </button>
-        <div class="modal fade" id="storeWashedMaterial" tabindex="-1" aria-labelledby="storeWashedMaterialLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="storeWashedMaterial" tabindex="-1" aria-labelledby="storeWashedMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -20,6 +19,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
                     <div class="modal-body">
+
                         @if ($errors->hasBag('storeWashedMaterial'))
                             <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                                 @foreach ($errors->storeWashedMaterial->all() as $message)
@@ -27,24 +27,13 @@
                                 @endforeach
                             </div>
                         @endif
+
                         <form class="d-flex text-center flex-column" action="/washed-material" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="washed_on" class="form-label">Изпран на</label>
+                                <label for="washed_on" class="form-label">Дата</label>
                                 <input type="date" class="form-control" id="washed_on" name="washed_on"
                                     value="{{ old('washed_on') }}">
-                            </div>
-                            <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал</label>
-                                <select class="form-select" id="from_material_id" name="from_material_id">
-                                    <option selected>Избери материал</option>
-                                    @foreach ($materials as $material)
-                                        <option value="{{ $material->id }}"
-                                            {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
-                                            {{ $material->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="m-3">
                                 <label for="worker_id" class="form-label">Изпран от</label>
@@ -53,6 +42,18 @@
                                     @foreach ($workers as $worker)
                                         <option value="{{ $worker->id }}"
                                             {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="m-3">
+                                <label for="from_material_id" class="form-label">От материал</label>
+                                <select class="form-select" id="from_material_id" name="from_material_id">
+                                    <option selected>Избери материал</option>
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material->id }}"
+                                            {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
+                                            {{ $material->name_and_code }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -69,7 +70,7 @@
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
-                                            {{ $material->name }}
+                                            {{ $material->name_and_code }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -86,61 +87,36 @@
         </div>
 
         {{-- Sorted material table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Изпран на</th>
-                    <th scope="col">От материал</th>
-                    <th scope="col">Изпран от</th>
-                    <th scope="col">Изпрано количество</th>
-                    <th scope="col">Получен материал</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($washedMaterials as $washedMaterial)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $washedMaterial->washed_on }}</td>
-                        <td>{{ $washedMaterial->from_material->name }}</td>
-                        <td>{{ $washedMaterial->worker->name }}
-                        <td>{{ $washedMaterial->quantity }}</td>
-                        <td>{{ $washedMaterial->to_material->name }}</td>
-                        </td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Изпран от</th>
+                        <th scope="col">От материал</th>
+                        <th scope="col">Изпрано количество</th>
+                        <th scope="col">Получен материал</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($washedMaterials as $washedMaterial)
+                        <tr>
+                            <td>{{ $washedMaterial->washed_on }}</td>
+                            <td>{{ $washedMaterial->worker->name }}
+                            <td>{{ $washedMaterial->from_material->name_and_code }}</td>
+                            <td>{{ $washedMaterial->quantity }}</td>
+                            <td>{{ $washedMaterial->to_material->name_and_code }}</td>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $washedMaterials->currentPage() - 2; $page <= $washedMaterials->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $washedMaterials->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($washedMaterials->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $washedMaterials->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <x-pagination :lengthAwarePaginator="$washedMaterials" />
 
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

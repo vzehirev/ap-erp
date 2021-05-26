@@ -29,7 +29,7 @@ class UsersController extends Controller
 
     function storeLogin(StoreLoginRequest $request)
     {
-        if (User::login($request->all())) {
+        if (User::login($request->validated())) {
             return back()->with('error', 'Неуспешен опит за вход в системата.');
         }
 

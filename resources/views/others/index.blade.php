@@ -11,13 +11,14 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#storePartner">
             Добави партньор +
         </button>
-        <div class="modal fade" id="storePartner" tabindex="-1" aria-labelledby="storePartnerLabel" aria-hidden="true">
+        <div class="modal fade" id="storePartner" tabindex="-1" aria-labelledby="storePartnerLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="storePartnerLabel">Добави партньор</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
+
                     @if ($errors->hasBag('storePartner'))
                         <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                             @foreach ($errors->storePartner->all() as $message)
@@ -25,6 +26,7 @@
                             @endforeach
                         </div>
                     @endif
+
                     <form class="d-flex text-center flex-column" action="/store-partner" method="post">
                         @csrf
                         <div class="modal-body">
@@ -46,13 +48,14 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#storeMaterial">
             Добави материал +
         </button>
-        <div class="modal fade" id="storeMaterial" tabindex="-1" aria-labelledby="storeMaterialLabel" aria-hidden="true">
+        <div class="modal fade" id="storeMaterial" tabindex="-1" aria-labelledby="storeMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="storeMaterialLabel">Добави материал</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
+
                     @if ($errors->hasBag('storeMaterial'))
                         <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                             @foreach ($errors->storeMaterial->all() as $message)
@@ -60,6 +63,7 @@
                             @endforeach
                         </div>
                     @endif
+
                     <form class="d-flex text-center flex-column" action="/store-material" method="post">
                         @csrf
                         <div class="modal-body">
@@ -85,14 +89,14 @@
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#storeWorker">
             Добави служител +
         </button>
-        <div class="modal fade" id="storeWorker" tabindex="-1" aria-labelledby="storeWorkerLabel" aria-hidden="true">
-
+        <div class="modal fade" id="storeWorker" tabindex="-1" aria-labelledby="storeWorkerLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="storeWorkerLabel">Добави служител</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
+
                     @if ($errors->hasBag('storeWorker'))
                         <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                             @foreach ($errors->storeWorker->all() as $message)
@@ -100,6 +104,7 @@
                             @endforeach
                         </div>
                     @endif
+
                     <form class="d-flex text-center flex-column" action="/store-worker" method="post">
                         @csrf
                         <div class="modal-body">
@@ -116,11 +121,6 @@
         </div>
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

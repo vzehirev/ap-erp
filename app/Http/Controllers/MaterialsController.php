@@ -32,7 +32,7 @@ class MaterialsController extends Controller
 
     function storeBoughtMaterial(StoreBoughtMaterialRequest $request)
     {
-        BoughtMaterial::create($request->all());
+        BoughtMaterial::create($request->validated());
 
         return redirect()->back()->with('success', 'Успешно добавен закупен материал.');
     }
@@ -48,7 +48,7 @@ class MaterialsController extends Controller
 
     function storeSortedMaterial(StoreSortedMaterialRequest $request)
     {
-        SortedMaterial::create($request->all());
+        SortedMaterial::create($request->validated());
 
         return back()->with('success', 'Успешно добавен сортиран материал.');
     }
@@ -64,7 +64,7 @@ class MaterialsController extends Controller
 
     function storeGroundMaterial(StoreGroundMaterialRequest $request)
     {
-        GroundMaterial::create($request->all());
+        GroundMaterial::create($request->validated());
 
         return back()->with('success', 'Успешно добавен смлян материал.');
     }
@@ -80,7 +80,7 @@ class MaterialsController extends Controller
 
     function storeWashedMaterial(StoreWashedMaterialRequest $request)
     {
-        WashedMaterial::create($request->all());
+        WashedMaterial::create($request->validated());
 
         return back()->with('success', 'Успешно добавен изпран материал.');
     }
@@ -96,7 +96,7 @@ class MaterialsController extends Controller
 
     function storeGranularMaterial(StoreGranularMaterialRequest $request)
     {
-        GranularMaterial::create($request->all());
+        GranularMaterial::create($request->validated());
 
         return back()->with('success', 'Успешно добавен гранулиран материал.');
     }
@@ -111,7 +111,7 @@ class MaterialsController extends Controller
 
     function storeSoldMaterial(StoreSoldMaterialRequest $request)
     {
-        SoldMaterial::create($request->all());
+        SoldMaterial::create($request->validated());
 
         return back()->with('success', 'Успешно добавен продаден материал.');
     }

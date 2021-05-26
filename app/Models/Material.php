@@ -10,4 +10,9 @@ class Material extends NoTimestampsModel
     {
         return $this->hasMany(BoughtMaterial::class);
     }
+
+    function getNameAndCodeAttribute()
+    {
+        return "$this->name ($this->code)";
+    }
 }

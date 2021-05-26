@@ -19,21 +19,21 @@ class OthersController extends Controller
 
     function storePartner(StorePartnerRequest $request)
     {
-        Partner::create($request->all());
+        Partner::create($request->validated());
 
         return back()->with('success', 'Успешно добавен партньор.');
     }
 
     function storeMaterial(StoreMaterialRequest $request)
     {
-        Material::create($request->all());
+        Material::create($request->validated());
 
         return back()->with('success', 'Успешно добавен материал.');
     }
 
     function storeWorker(StoreWorkerRequest $request)
     {
-        Worker::create($request->all());
+        Worker::create($request->validated());
 
         return back()->with('success', 'Успешно добавен служител.');
     }

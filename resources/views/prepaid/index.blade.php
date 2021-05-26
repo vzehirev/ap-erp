@@ -7,11 +7,11 @@
     @endif
 
     {{-- Buy material form --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storePrepaid">
-            Добави предплата
+            Добави предплата +
         </button>
-        <div class="modal fade" id="storePrepaid" tabindex="-1" aria-labelledby="storePrepaidLabel" aria-hidden="true">
+        <div class="modal fade" id="storePrepaid" tabindex="-1" aria-labelledby="storePrepaidLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -32,7 +32,8 @@
                             @csrf
                             <div class="m-3">
                                 <label for="paid_on" class="form-label">Дата</label>
-                                <input type="date" class="form-control" id="paid_on" name="paid_on">
+                                <input type="date" class="form-control" id="paid_on" name="paid_on"
+                                    value="{{ old('paid_on') }}">
                             </div>
                             <div class="m-3">
                                 <label for="worker_id" class="form-label">Служител</label>
@@ -46,8 +47,9 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Цена</label>
-                                <input type="text" class="form-control" id="price" name="price">
+                                <label for="price" class="form-label">Сума</label>
+                                <input type="text" class="form-control" id="price" name="price"
+                                    value="{{ old('price') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -61,56 +63,31 @@
         </div>
 
         {{-- Bought materials table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Служител</th>
-                    <th scope="col">Сума</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($prepaid as $pp)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $pp->paid_on }}</td>
-                        <td>{{ $pp->worker->name }}</td>
-                        <td>{{ $pp->price }}</td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Служител</th>
+                        <th scope="col">Сума</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($prepaid as $pp)
+                        <tr>
+                            <td>{{ $pp->paid_on }}</td>
+                            <td>{{ $pp->worker->name }}</td>
+                            <td>{{ $pp->price }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $prepaid->currentPage() - 2; $page <= $prepaid->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $prepaid->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($prepaid->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $prepaid->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <x-pagination :lengthAwarePaginator="$prepaid" />
 
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

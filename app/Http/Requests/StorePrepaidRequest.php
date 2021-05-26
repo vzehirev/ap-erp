@@ -26,9 +26,9 @@ class StorePrepaidRequest extends FormRequest
     public function rules()
     {
         return [
-            'paid_on' => 'required|date',
-            'worker_id' => 'required|integer',
-            'price' => 'required|numeric',
+            'paid_on' => ['required', 'date'],
+            'worker_id' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],
         ];
     }
 }

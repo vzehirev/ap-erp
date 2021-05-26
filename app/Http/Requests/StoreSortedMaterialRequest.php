@@ -26,10 +26,10 @@ class StoreSortedMaterialRequest extends FormRequest
     public function rules()
     {
         return [
-            'sorted_on' => 'required|date',
-            'partner_id' => 'required|integer',
-            'worker_id' => 'required|integer',
-            'quantity' => 'required|numeric',
+            'sorted_on' => ['required', 'date'],
+            'partner_id' => ['required', 'integer'],
+            'worker_id' => ['required', 'integer'],
+            'quantity' => ['required', 'numeric'],
         ];
     }
 }

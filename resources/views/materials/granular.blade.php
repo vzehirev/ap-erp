@@ -7,12 +7,11 @@
     @endif
 
     {{-- Store sorted material --}}
-    <div class="container d-flex flex-column align-items-center mt-3">
+    <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeGranularMaterial">
-            Добави гранулиран материал
+            Добави гранулиран материал +
         </button>
-        <div class="modal fade" id="storeGranularMaterial" tabindex="-1" aria-labelledby="storeGranularMaterialLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="storeGranularMaterial" tabindex="-1" aria-labelledby="storeGranularMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -20,6 +19,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
                     </div>
                     <div class="modal-body">
+
                         @if ($errors->hasBag('storeGranularMaterial'))
                             <div class="alert alert-danger mx-auto text-center mt-3 mb-0" role="alert">
                                 @foreach ($errors->storeGranularMaterial->all() as $message)
@@ -27,10 +27,11 @@
                                 @endforeach
                             </div>
                         @endif
+
                         <form class="d-flex text-center flex-column" action="/granular-material" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="granular_on" class="form-label">Гранулиран на</label>
+                                <label for="granular_on" class="form-label">Дата</label>
                                 <input type="date" class="form-control" id="granular_on" name="granular_on"
                                     value="{{ old('granular_on') }}">
                             </div>
@@ -46,21 +47,21 @@
                                 </select>
                             </div>
                             <div class="m-3">
+                                <label for="quantity" class="form-label">Гранулирано количество</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity"
+                                    value="{{ old('quantity') }}">
+                            </div>
+                            <div class="m-3">
                                 <label for="material_id" class="form-label">Материал</label>
                                 <select class="form-select" id="material_id" name="material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('material_id') == $material->id ? 'selected' : '' }}>
-                                            {{ $material->name }}
+                                            {{ $material->name_and_code }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="m-3">
-                                <label for="quantity" class="form-label">Гранулирано количество</label>
-                                <input type="text" class="form-control" id="quantity" name="quantity"
-                                    value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -74,59 +75,34 @@
         </div>
 
         {{-- Sorted material table --}}
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Гранулиран на</th>
-                    <th scope="col">Гранулиран от</th>
-                    <th scope="col">Материал</th>
-                    <th scope="col">Гранулирано количество</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($granularMaterials as $granularMaterial)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>{{ $granularMaterial->granular_on }}</td>
-                        <td>{{ $granularMaterial->worker->name }}
-                        <td>{{ $granularMaterial->material->name }}</td>
-                        <td>{{ $granularMaterial->quantity }}</td>
-                        </td>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Гранулиран от</th>
+                        <th scope="col">Гранулирано количество</th>
+                        <th scope="col">Материал</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($granularMaterials as $granularMaterial)
+                        <tr>
+                            <td>{{ $granularMaterial->granular_on }}</td>
+                            <td>{{ $granularMaterial->worker->name }}
+                            <td>{{ $granularMaterial->quantity }}</td>
+                            <td>{{ $granularMaterial->material->name_and_code }}</td>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        {{-- Pagination --}}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">Първа</span>
-                    </a>
-                </li>
-                @for ($page = $granularMaterials->currentPage() - 2; $page <= $granularMaterials->currentPage() + 2; $page++)
-                    @if ($page <= 0 || $page > $granularMaterials->lastPage())
-                        @continue
-                    @endif
-                    <li class="page-item @if ($granularMaterials->currentPage() === $page) active @endif"><a class="page-link"
-                            href="?page={{ $page }}">{{ $page }}</a>
-                    </li>
-                @endfor
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ $granularMaterials->lastPage() }}" aria-label="Next">
-                        <span aria-hidden="true">Последна</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <x-pagination :lengthAwarePaginator="$granularMaterials" />
 
     </div>
 
-    {{-- Automatically show the modal, if form validaiton fails --}}
-    @if (count($errors->getBags()) > 0)
-        <script>
-            showModal("{{ array_key_first($errors->getBags()) }}");
+    <x-open_modal_on_error :viewErrorBag="$errors" />
 
-        </script>
-    @endif
 @endsection

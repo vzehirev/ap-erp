@@ -16,7 +16,7 @@ class ExpensesController extends Controller
 
     function store(StoreExpenseRequest $request)
     {
-        Expense::create($request->all());
+        Expense::create($request->validated());
 
         return back()->with('success', 'Успешно добавен разход.');
     }

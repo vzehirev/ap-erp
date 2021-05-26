@@ -18,7 +18,7 @@ class PrepaidController extends Controller
 
     function store(StorePrepaidRequest $request)
     {
-        Prepaid::create($request->all());
+        Prepaid::create($request->validated());
 
         return back()->with('success', 'Успешно добавена предплата.');
     }

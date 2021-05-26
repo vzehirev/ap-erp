@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\OthersController;
 use App\Http\Controllers\PrepaidController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SalariesController;
 
 /*
@@ -59,6 +60,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/prepaid', [PrepaidController::class, 'index']);
     Route::post('/prepaid', [PrepaidController::class, 'store']);
+
+    Route::get('/reports', [ReportsController::class, 'index']);
+    Route::get('/washed-materials-report', [ReportsController::class, 'indexWashedMaterials']);
+    Route::get('/stored-materials-report', [ReportsController::class, 'indexStoredMaterials']);
 
     Route::get('/others', [OthersController::class, 'index']);
     Route::post('/store-partner', [OthersController::class, 'storePartner']);
