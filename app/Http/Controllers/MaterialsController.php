@@ -9,6 +9,7 @@ use App\Http\Requests\StoreGranularMaterialRequest;
 use App\Http\Requests\StoreGroundMaterialRequest;
 use App\Http\Requests\StoreSortedMaterialRequest;
 use App\Http\Requests\StoreWashedMaterialRequest;
+use App\Http\Requests\StoreWastedMaterialRequest;
 use App\Models\BoughtMaterial;
 use App\Models\GranularMaterial;
 use App\Models\GroundMaterial;
@@ -17,6 +18,7 @@ use App\Models\Material;
 use App\Models\SoldMaterial;
 use App\Models\SortedMaterial;
 use App\Models\WashedMaterial;
+use App\Models\WastedMaterial;
 use App\Models\Worker;
 
 class MaterialsController extends Controller
@@ -35,6 +37,23 @@ class MaterialsController extends Controller
         BoughtMaterial::create($request->validated());
 
         return redirect()->back()->with('success', 'Успешно добавен закупен материал.');
+    }
+
+    function indexWastedMaterials()
+    {
+        $materials = Material::orderBy('name', 'asc')->get();
+        $workers = Worker::orderBy('name', 'asc')->get();
+        $wastedMaterials = WastedMaterial::orderBy('wasted_on', 'desc')->with('from_material', 'worker')->paginate(100);
+
+        return view('materials.wasted', ['materials' => $materials, 'workers' => $workers, 'wastedMaterials' => $wastedMaterials]);
+    }
+
+    function storeWastedMaterial(StoreWastedMaterialRequest $request)
+    {
+        $wastedMaterialType =
+        WastedMaterial::create($request->validated());
+
+        return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
     }
 
     function indexSortedMaterials()

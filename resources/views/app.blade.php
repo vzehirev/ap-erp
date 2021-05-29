@@ -29,28 +29,32 @@
                 <div class="collapse navbar-collapse" id="navbarToggler">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'bought-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/bought-material">Закупен материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'bought-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/bought-materials">Закупен материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'sorted-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/sorted-material">Сортиран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'wasted-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/wasted-materials">Брак</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'ground-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/ground-material">Смлян материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'sorted-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/sorted-materials">Сортиран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'washed-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/washed-material">Изпран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'ground-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/ground-materials">Смлян материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'granular-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/granular-material">Гранулиран материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'washed-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/washed-materials">Изпран материал</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'sold-material' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/sold-material">Продаден материал</a>
+                            <a class="nav-link text-center {{ Request::path() == 'granular-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/granular-materials">Гранулиран материал</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-center {{ Request::path() == 'sold-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/sold-materials">Продаден материал</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-center {{ Request::path() == 'expenses' ? 'text-decoration-underline active' : '' }}"

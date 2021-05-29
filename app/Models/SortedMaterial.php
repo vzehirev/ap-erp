@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\UpdateMaterialsAvailableQuantities;
 use Carbon\Carbon;
 
 class SortedMaterial extends NoTimestampsModel
 {
+    use UpdateMaterialsAvailableQuantities;
+
     protected $fillable = ['sorted_on', 'partner_id', 'worker_id', 'quantity'];
 
     function getSortedOnAttribute($value)

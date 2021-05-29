@@ -28,15 +28,15 @@
                             </div>
                         @endif
 
-                        <form class="d-flex text-center flex-column" action="/sorted-material" method="post">
+                        <form class="d-flex text-center flex-column" action="/sorted-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="sorted_on" class="form-label">Дата</label>
+                                <label for="sorted_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="sorted_on" name="sorted_on"
                                     value="{{ old('sorted_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="partner_id" class="form-label">Закупен от</label>
+                                <label for="partner_id" class="form-label">Закупен от*</label>
                                 <select class="form-select" id="partner_id" name="partner_id">
                                     <option selected>Избери партньор</option>
                                     @foreach ($partners as $partner)
@@ -48,7 +48,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Сортиран от</label>
+                                <label for="worker_id" class="form-label">Сортиран от*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
@@ -59,7 +59,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Сортирано количество</label>
+                                <label for="quantity" class="form-label">Сортирано количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>

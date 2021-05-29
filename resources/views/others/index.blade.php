@@ -31,7 +31,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="m-3">
-                                <label for="name" class="form-label">Име на партньор</label>
+                                <label for="name" class="form-label">Име на партньор*</label>
                                 <input type="text" class="form-control" id="name" name="name" value={{ old('name') }}>
                             </div>
                             <button type="button" class="btn btn-outline-danger m-3"
@@ -68,7 +68,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="m-3">
-                                <label for="name" class="form-label">Име на материал</label>
+                                <label for="name" class="form-label">Име на материал*</label>
                                 <input type="text" class="form-control" id="name" name="name" value={{ old('name') }}>
                             </div>
                             <div class="m-3">

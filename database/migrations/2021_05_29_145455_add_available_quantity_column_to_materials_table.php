@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakeBoughtMaterialsInvoiceNumNullable extends Migration
+class AddAvailableQuantityColumnToMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class MakeBoughtMaterialsInvoiceNumNullable extends Migration
      */
     public function up()
     {
-        Schema::table('bought_materials', function (Blueprint $table) {
-            $table->string('invoice_num')->nullable()->change();
+        Schema::table('materials', function (Blueprint $table) {
+            $table->double('available_quantity')->default(0);
         });
     }
 
@@ -25,7 +25,8 @@ class MakeBoughtMaterialsInvoiceNumNullable extends Migration
      */
     public function down()
     {
-        Schema::table('bought_materials', function (Blueprint $table) {
+        Schema::table('materials', function (Blueprint $table) {
+            $table->dropColumn('available_quantity');
         });
     }
 }

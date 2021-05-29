@@ -28,15 +28,15 @@
                             </div>
                         @endif
 
-                        <form class="d-flex text-center flex-column" action="/bought-material" method="post">
+                        <form class="d-flex text-center flex-column" action="/bought-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="bought_on" class="form-label">Дата</label>
+                                <label for="bought_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="bought_on" name="bought_on"
                                     value={{ old('bought_on') }}>
                             </div>
                             <div class="m-3">
-                                <label for="partner_id" class="form-label">Закупен от</label>
+                                <label for="partner_id" class="form-label">Закупен от*</label>
                                 <select class="form-select" id="partner_id" name="partner_id">
                                     <option selected>Избери партньор</option>
                                     @foreach ($partners as $partner)
@@ -48,7 +48,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="material_id" class="form-label">Закупен материал</label>
+                                <label for="material_id" class="form-label">Закупен материал*</label>
                                 <select class="form-select" id="material_id" name="material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
@@ -60,11 +60,11 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Цена</label>
+                                <label for="price" class="form-label">Цена*</label>
                                 <input type="text" class="form-control" id="price" name="price" value={{ old('price') }}>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Закупено количество</label>
+                                <label for="quantity" class="form-label">Закупено количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value={{ old('quantity') }}>
                             </div>

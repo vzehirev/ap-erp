@@ -5,13 +5,13 @@ namespace App\Models;
 use App\Traits\UpdateMaterialsAvailableQuantities;
 use Carbon\Carbon;
 
-class GranularMaterial extends NoTimestampsModel
+class WastedMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['granular_on', 'worker_id', 'material_id', 'quantity'];
+    protected $fillable = ['wasted_on', 'worker_id', 'from_material_id', 'quantity'];
 
-    function getGranularOnAttribute($value)
+    function getWastedOnAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
@@ -21,7 +21,7 @@ class GranularMaterial extends NoTimestampsModel
         return $this->belongsTo(Worker::class);
     }
 
-    function material()
+    function from_material()
     {
         return $this->belongsTo(Material::class);
     }

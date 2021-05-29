@@ -28,15 +28,15 @@
                             </div>
                         @endif
 
-                        <form class="d-flex text-center flex-column" action="/washed-material" method="post">
+                        <form class="d-flex text-center flex-column" action="/washed-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="washed_on" class="form-label">Дата</label>
+                                <label for="washed_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="washed_on" name="washed_on"
                                     value="{{ old('washed_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Изпран от</label>
+                                <label for="worker_id" class="form-label">Изпран от*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал</label>
+                                <label for="from_material_id" class="form-label">От материал*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
@@ -59,12 +59,12 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Изпрано количество</label>
+                                <label for="quantity" class="form-label">Изпрано количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал</label>
+                                <label for="to_material_id" class="form-label">Получен материал*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
                                     <option selected>Избери получен материал</option>
                                     @foreach ($materials as $material)

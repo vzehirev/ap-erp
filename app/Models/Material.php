@@ -6,13 +6,20 @@ class Material extends NoTimestampsModel
 {
     protected $fillable = ['name', 'code',];
 
-    function boughtMaterials()
-    {
-        return $this->hasMany(BoughtMaterial::class);
-    }
-
     function getNameAndCodeAttribute()
     {
-        return "$this->name ($this->code)";
+        return $this->code ? "$this->name ($this->code)" : $this->name;
+    }
+
+    function increaseAvailableQuantity($quantity)
+    {
+        $this->available_quantity += $quantity;
+        $this->save();
+    }
+
+    function decreaseAvailableQuantity($quantity)
+    {
+        $this->available_quantity -= $quantity;
+        $this->save();
     }
 }

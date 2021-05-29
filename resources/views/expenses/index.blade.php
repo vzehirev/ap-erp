@@ -31,16 +31,16 @@
                         <form class="d-flex text-center flex-column" action="/expenses" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="made_on" class="form-label">Дата</label>
+                                <label for="made_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="made_on" name="made_on"
                                     value="{{ old('made_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="type" class="form-label">Вид/Тип разход</label>
+                                <label for="type" class="form-label">Вид/Тип разход*</label>
                                 <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}">
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Цена</label>
+                                <label for="price" class="form-label">Цена*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
                             </div>

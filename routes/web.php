@@ -34,23 +34,26 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [UsersController::class, 'storeLogout']);
 
-    Route::get('/bought-material', [MaterialsController::class, 'indexBoughtMaterials']);
-    Route::post('/bought-material', [MaterialsController::class, 'storeBoughtMaterial']);
+    Route::get('/bought-materials', [MaterialsController::class, 'indexBoughtMaterials']);
+    Route::post('/bought-materials', [MaterialsController::class, 'storeBoughtMaterial']);
 
-    Route::get('/sorted-material', [MaterialsController::class, 'indexSortedMaterials']);
-    Route::post('/sorted-material', [MaterialsController::class, 'storeSortedMaterial']);
+    Route::get('/wasted-materials', [MaterialsController::class, 'indexWastedMaterials']);
+    Route::post('/wasted-materials', [MaterialsController::class, 'storeWastedMaterial']);
 
-    Route::get('/ground-material', [MaterialsController::class, 'indexGroundMaterials']);
-    Route::post('/ground-material', [MaterialsController::class, 'storeGroundMaterial']);
+    Route::get('/sorted-materials', [MaterialsController::class, 'indexSortedMaterials']);
+    Route::post('/sorted-materials', [MaterialsController::class, 'storeSortedMaterial']);
 
-    Route::get('/washed-material', [MaterialsController::class, 'indexWashedMaterials']);
-    Route::post('/washed-material', [MaterialsController::class, 'storeWashedMaterial']);
+    Route::get('/ground-materials', [MaterialsController::class, 'indexGroundMaterials']);
+    Route::post('/ground-materials', [MaterialsController::class, 'storeGroundMaterial']);
 
-    Route::get('/granular-material', [MaterialsController::class, 'indexGranularMaterials']);
-    Route::post('/granular-material', [MaterialsController::class, 'storeGranularMaterial']);
+    Route::get('/washed-materials', [MaterialsController::class, 'indexWashedMaterials']);
+    Route::post('/washed-materials', [MaterialsController::class, 'storeWashedMaterial']);
 
-    Route::get('/sold-material', [MaterialsController::class, 'indexSoldMaterials']);
-    Route::post('/sold-material', [MaterialsController::class, 'storeSoldMaterial']);
+    Route::get('/granular-materials', [MaterialsController::class, 'indexGranularMaterials']);
+    Route::post('/granular-materials', [MaterialsController::class, 'storeGranularMaterial']);
+
+    Route::get('/sold-materials', [MaterialsController::class, 'indexSoldMaterials']);
+    Route::post('/sold-materials', [MaterialsController::class, 'storeSoldMaterial']);
 
     Route::get('/expenses', [ExpensesController::class, 'index']);
     Route::post('/expenses', [ExpensesController::class, 'store']);

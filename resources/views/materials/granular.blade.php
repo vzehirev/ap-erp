@@ -28,15 +28,15 @@
                             </div>
                         @endif
 
-                        <form class="d-flex text-center flex-column" action="/granular-material" method="post">
+                        <form class="d-flex text-center flex-column" action="/granular-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="granular_on" class="form-label">Дата</label>
+                                <label for="granular_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="granular_on" name="granular_on"
                                     value="{{ old('granular_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Гранулиран от</label>
+                                <label for="worker_id" class="form-label">Гранулиран от*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Гранулирано количество</label>
+                                <label for="quantity" class="form-label">Гранулирано количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>

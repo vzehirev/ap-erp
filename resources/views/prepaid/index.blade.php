@@ -31,12 +31,12 @@
                         <form class="d-flex text-center flex-column" action="/prepaid" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="paid_on" class="form-label">Дата</label>
+                                <label for="paid_on" class="form-label">Дата*</label>
                                 <input type="date" class="form-control" id="paid_on" name="paid_on"
                                     value="{{ old('paid_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Служител</label>
+                                <label for="worker_id" class="form-label">Служител*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Сума</label>
+                                <label for="price" class="form-label">Сума*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
                             </div>
