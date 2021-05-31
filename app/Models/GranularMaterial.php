@@ -9,7 +9,7 @@ class GranularMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['granular_on', 'worker_id', 'material_id', 'quantity'];
+    protected $fillable = ['granular_on', 'worker_id', 'from_material_id', 'to_material_id', 'quantity'];
 
     function getGranularOnAttribute($value)
     {
@@ -21,7 +21,12 @@ class GranularMaterial extends NoTimestampsModel
         return $this->belongsTo(Worker::class);
     }
 
-    function material()
+    function from_material()
+    {
+        return $this->belongsTo(Material::class);
+    }
+
+    function to_material()
     {
         return $this->belongsTo(Material::class);
     }

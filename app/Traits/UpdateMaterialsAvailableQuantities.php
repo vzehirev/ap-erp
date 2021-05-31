@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Models\SoldMaterial;
+
 trait UpdateMaterialsAvailableQuantities
 {
     static function bootUpdateMaterialsAvailableQuantities()
@@ -12,7 +14,11 @@ trait UpdateMaterialsAvailableQuantities
             }
 
             if ($model->material) {
-                $model->material->increaseAvailableQuantity($model->quantity);
+                if ($model::class == SoldMaterial::class) {
+                    $model->material->decreaseAvailableQuantity($model->quantity);
+                } else {
+                    $model->material->increaseAvailableQuantity($model->quantity);
+                }
             } elseif ($model->to_material) {
                 $model->to_material->increaseAvailableQuantity($model->quantity);
             }

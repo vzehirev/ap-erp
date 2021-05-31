@@ -69,6 +69,10 @@
                                 aria-current="page" href="/prepaid">Предплатени</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-center {{ Request::path() == 'available-materials' ? 'text-decoration-underline active' : '' }}"
+                                aria-current="page" href="/available-materials">Налични материали</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-center {{ Request::path() == 'reports' ? 'text-decoration-underline active' : '' }}"
                                 aria-current="page" href="/reports">Отчети</a>
                         </li>

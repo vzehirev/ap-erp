@@ -9,7 +9,7 @@ class SortedMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['sorted_on', 'partner_id', 'worker_id', 'quantity'];
+    protected $fillable = ['sorted_on', 'partner_id', 'worker_id', 'from_material_id', 'to_material_id', 'quantity'];
 
     function getSortedOnAttribute($value)
     {
@@ -24,5 +24,15 @@ class SortedMaterial extends NoTimestampsModel
     function partner()
     {
         return $this->belongsTo(Partner::class);
+    }
+
+    function from_material()
+    {
+        return $this->belongsTo(Material::class);
+    }
+
+    function to_material()
+    {
+        return $this->belongsTo(Material::class);
     }
 }

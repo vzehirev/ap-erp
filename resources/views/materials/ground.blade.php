@@ -47,21 +47,33 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Смляно количество*</label>
-                                <input type="text" class="form-control" id="quantity" name="quantity"
-                                    value="{{ old('quantity') }}">
-                            </div>
-                            <div class="m-3">
-                                <label for="material_id" class="form-label">Получен материал*</label>
-                                <select class="form-select" id="material_id" name="material_id">
+                                <label for="from_material_id" class="form-label">От материал</label>
+                                <select class="form-select" id="from_material_id" name="from_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
-                                            {{ old('material_id') == $material->id ? 'selected' : '' }}>
+                                            {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
                                             {{ $material->name_and_code }}
                                         </option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="m-3">
+                                <label for="to_material_id" class="form-label">Получен материал*</label>
+                                <select class="form-select" id="to_material_id" name="to_material_id">
+                                    <option selected>Избери материал</option>
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material->id }}"
+                                            {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
+                                            {{ $material->name_and_code }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="m-3">
+                                <label for="quantity" class="form-label">Смляно количество*</label>
+                                <input type="text" class="form-control" id="quantity" name="quantity"
+                                    value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
@@ -81,8 +93,9 @@
                     <tr>
                         <th scope="col">Дата</th>
                         <th scope="col">Смлян от</th>
-                        <th scope="col">Смляно количество</th>
+                        <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
+                        <th scope="col">Смляно количество</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,12 +103,20 @@
                         <tr>
                             <td>{{ $groundMaterial->ground_on }}</td>
                             <td>{{ $groundMaterial->worker->name }}
+                            <td>{{ $groundMaterial->from_material->name_and_code }}</td>
+                            <td>{{ $groundMaterial->to_material->name_and_code }}</td>
                             <td>{{ $groundMaterial->quantity }}</td>
-                            <td>{{ $groundMaterial->material->name_and_code }}</td>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        <x-pagination :lengthAwarePaginator="$groundMaterials" />
+
+    </div>
+
+    <x-open_modal_on_error :viewErrorBag="$errors" />
+
 @endsection

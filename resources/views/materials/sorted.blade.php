@@ -59,6 +59,30 @@
                                 </select>
                             </div>
                             <div class="m-3">
+                                <label for="from_material_id" class="form-label">От материал</label>
+                                <select class="form-select" id="from_material_id" name="from_material_id">
+                                    <option selected>Избери материал</option>
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material->id }}"
+                                            {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
+                                            {{ $material->name_and_code }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="m-3">
+                                <label for="to_material_id" class="form-label">Получен материал</label>
+                                <select class="form-select" id="to_material_id" name="to_material_id">
+                                    <option selected>Избери материал</option>
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material->id }}"
+                                            {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
+                                            {{ $material->name_and_code }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="m-3">
                                 <label for="quantity" class="form-label">Сортирано количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
@@ -82,6 +106,8 @@
                         <th scope="col">Дата</th>
                         <th scope="col">Закупен от</th>
                         <th scope="col">Сортиран от</th>
+                        <th scope="col">От материал</th>
+                        <th scope="col">Получен материал</th>
                         <th scope="col">Сортирано количество</th>
                     </tr>
                 </thead>
@@ -91,6 +117,8 @@
                             <td>{{ $sortedMaterial->sorted_on }}</td>
                             <td>{{ $sortedMaterial->partner->name }}</td>
                             <td>{{ $sortedMaterial->worker->name }}
+                            <td>{{ $sortedMaterial->from_material->name_and_code }}
+                            <td>{{ $sortedMaterial->to_material->name_and_code }}
                             <td>{{ $sortedMaterial->quantity }}</td>
                             </td>
                         </tr>

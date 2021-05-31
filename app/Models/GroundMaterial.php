@@ -9,7 +9,7 @@ class GroundMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['ground_on', 'worker_id', 'quantity', 'material_id'];
+    protected $fillable = ['ground_on', 'worker_id', 'from_material_id', 'to_material_id', 'quantity'];
 
     function getGroundOnAttribute($value)
     {
@@ -21,7 +21,12 @@ class GroundMaterial extends NoTimestampsModel
         return $this->belongsTo(Worker::class);
     }
 
-    function material()
+    function from_material()
+    {
+        return $this->belongsTo(Material::class);
+    }
+
+    function to_material()
     {
         return $this->belongsTo(Material::class);
     }

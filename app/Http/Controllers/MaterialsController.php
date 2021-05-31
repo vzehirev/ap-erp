@@ -51,18 +51,19 @@ class MaterialsController extends Controller
     function storeWastedMaterial(StoreWastedMaterialRequest $request)
     {
         $wastedMaterialType =
-        WastedMaterial::create($request->validated());
+            WastedMaterial::create($request->validated());
 
         return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
     }
 
     function indexSortedMaterials()
     {
+        $materials = Material::orderBy('name', 'asc')->get();
         $partners = Partner::orderBy('name', 'asc')->get();
         $workers = Worker::orderBy('name', 'asc')->get();
-        $sortedMaterials = SortedMaterial::orderBy('sorted_on', 'desc')->with('worker', 'partner')->paginate(100);
+        $sortedMaterials = SortedMaterial::orderBy('sorted_on', 'desc')->with('worker', 'partner', 'from_material', 'to_material')->paginate(100);
 
-        return view('materials.sorted', ['partners' => $partners, 'workers' => $workers, 'sortedMaterials' => $sortedMaterials]);
+        return view('materials.sorted', ['materials' => $materials, 'partners' => $partners, 'workers' => $workers, 'sortedMaterials' => $sortedMaterials]);
     }
 
     function storeSortedMaterial(StoreSortedMaterialRequest $request)
@@ -76,7 +77,7 @@ class MaterialsController extends Controller
     {
         $materials = Material::orderBy('name', 'asc')->get();
         $workers = Worker::orderBy('name', 'asc')->get();
-        $groundMaterials = GroundMaterial::orderBy('ground_on', 'desc')->with('worker', 'material')->paginate(100);
+        $groundMaterials = GroundMaterial::orderBy('ground_on', 'desc')->with('worker', 'from_material', 'to_material')->paginate(100);
 
         return view('materials.ground', ['workers' => $workers, 'materials' => $materials, 'groundMaterials' => $groundMaterials]);
     }
@@ -108,7 +109,7 @@ class MaterialsController extends Controller
     {
         $materials = Material::orderBy('name', 'asc')->get();
         $workers = Worker::orderBy('name', 'asc')->get();
-        $granularMaterials = GranularMaterial::orderBy('granular_on', 'desc')->with('worker', 'material')->paginate(100);
+        $granularMaterials = GranularMaterial::orderBy('granular_on', 'desc')->with('worker', 'from_material', 'to_material')->paginate(100);
 
         return view('materials.granular', ['workers' => $workers, 'materials' => $materials, 'granularMaterials' => $granularMaterials]);
     }
