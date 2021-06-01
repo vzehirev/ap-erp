@@ -65,9 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/prepaid', [PrepaidController::class, 'store']);
 
     Route::get('/reports', [ReportsController::class, 'index']);
+    Route::post('/reports', [ReportsController::class, 'index']);
     Route::get('/available-materials', [ReportsController::class, 'indexAvailableMaterials']);
-    Route::get('/materials-reports', [ReportsController::class, 'indexMaterialsReports']);
-    Route::get('/stored-materials-report', [ReportsController::class, 'indexStoredMaterials']);
 
     Route::get('/others', [OthersController::class, 'index']);
     Route::post('/store-partner', [OthersController::class, 'storePartner']);

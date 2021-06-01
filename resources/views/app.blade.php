@@ -16,7 +16,7 @@
     <script src="{{ mix('/js/app.js') }}"></script>
 </head>
 
-<body>
+<body class="mb-5">
     @auth
         <nav class="navbar navbar-expand-xxl navbar-dark bg-dark">
             <div class="container-fluid">
@@ -92,7 +92,6 @@
     @endauth
 
     @yield('content')
-
 </body>
 
 </html>
