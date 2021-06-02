@@ -17,26 +17,33 @@
                 <button type="submit" class="btn btn-primary">OK</button>
             </div>
         </form>
+        <div class="m-3 d-flex justify-content-center">
+            <a href="/reports"><button type="button" class="btn btn-outline-danger btn-sm">Изчисти периода</button></a>
+        </div>
 
-        <div class="fs-5">Дании за периода:
+        <div class="fs-5 text-primary">Дании за периода:
             <strong>{{ $from_date ? Carbon\Carbon::parse($from_date)->format('d-M-Y') : 'От началото' }} -
                 {{ $to_date ? Carbon\Carbon::parse($to_date)->format('d-M-Y') : 'До днес' }}</strong>
         </div>
 
         <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingOne">
-                    Закупени материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingOne">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
                         aria-controls="flush-collapseOne">
-                        <p class="mx-3 my-0">Общо количество: <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
-                        </p>
-                        <p class="mx-3 my-0">Обща цена: <strong>{{ $boughtMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
-                        <p class="mx-3 my-0">Средна цена:
-                            <strong>{{ round($boughtMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Закупени материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
+                            </p>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $boughtMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                            <p class="mx-3 my-0">Средна цена:
+                                <strong>{{ round($boughtMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne">
@@ -66,15 +73,18 @@
                     </div>
                 </div>
             </div>
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingTwo">
-                    Бракувани материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingTwo">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false"
                         aria-controls="flush-collapseTwo">
-                        <p class="mx-3 my-0">Общо количество:
-                            <strong>{{ $wastedMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Бракувани материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $wastedMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo">
@@ -102,15 +112,18 @@
                     </div>
                 </div>
             </div>
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingThree">
-                    Сортирани материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingThree">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                         aria-controls="flush-collapseThree">
-                        <p class="mx-3 my-0">Общо количество:
-                            <strong>{{ $sortedMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Сортирани материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $sortedMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree">
@@ -143,15 +156,18 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingFour">
-                    Смляни материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingFour">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false"
                         aria-controls="flush-collapseFour">
-                        <p class="mx-3 my-0">Общо количество:
-                            <strong>{{ $groundMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Смляни материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $groundMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour">
@@ -184,15 +200,18 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingFive">
-                    Изпрани материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingFive">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false"
                         aria-controls="flush-collapseFive">
-                        <p class="mx-3 my-0">Общо количество:
-                            <strong>{{ $washedMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Изпрани материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $washedMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive">
@@ -225,15 +244,18 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingSix">
-                    Гранулирани материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingSix">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false"
                         aria-controls="flush-collapseSix">
-                        <p class="mx-3 my-0">Общо количество:
-                            <strong>{{ $granularMaterialsTotal[0]->quantity ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Гранулирани материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $granularMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix">
@@ -266,18 +288,23 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingSeven">
-                    Продадени материали
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingSeven">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false"
                         aria-controls="flush-collapseSeven">
-                        <p class="mx-3 my-0">Общо количество: <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
-                        </p>
-                        <p class="mx-3 my-0">Обща цена: <strong>{{ $soldMaterialsTotal[0]->quantity ?? 0 }}</strong> </p>
-                        <p class="mx-3 my-0">Средна цена:
-                            <strong>{{ round($soldMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
-                        </p>
+                        <div class="mb-3 text-decoration-underline">Продадени материали</div>
+                        <div>
+                            <p class="mx-3 my-0">Общо количество:
+                                <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
+                            </p>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $soldMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            </p>
+                            <p class="mx-3 my-0">Средна цена:
+                                <strong>{{ round($soldMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
+                            </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven">
@@ -310,13 +337,16 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingEight">
-                    Разходи
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingEight">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false"
                         aria-controls="flush-collapseEight">
-                        <p class="mx-3 my-0">Обща цена: <strong>{{ $expensesTotal[0]->price ?? 0 }}</strong> </p>
+                        <div class="mb-3 text-decoration-underline">Разходи</div>
+                        <div>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $expensesTotal[0]->price ?? 0 }}</strong> </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight">
@@ -343,13 +373,16 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingNine">
-                    Заплати
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingNine">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false"
                         aria-controls="flush-collapseNine">
-                        <p class="mx-3 my-0">Обща цена: <strong>{{ $salariesTotal[0]->price ?? 0 }}</strong> </p>
+                        <div class="mb-3 text-decoration-underline">Заплати</div>
+                        <div>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $salariesTotal[0]->price ?? 0 }}</strong> </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine">
@@ -376,13 +409,16 @@
                 </div>
             </div>
 
-            <div class="accordion-item border rounded mt-4">
-                <h5 class="accordion-header mt-2" id="flush-headingTen">
-                    Предплатени
-                    <button class="mt-2 collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
+            <div class="accordion-item border rounded mt-5">
+                <h5 class="accordion-header" id="flush-headingTen">
+                    <button
+                        class="flex-column align-items-center collapsed d-flex justify-content-center w-100 bg-light border-0 mx-auto p-2"
                         type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false"
                         aria-controls="flush-collapseTen">
-                        <p class="mx-3 my-0">Обща цена: <strong>{{ $prepaidTotal[0]->price ?? 0 }}</strong> </p>
+                        <div class="mb-3 text-decoration-underline">Предплатени</div>
+                        <div>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $prepaidTotal[0]->price ?? 0 }}</strong> </p>
+                        </div>
                     </button>
                 </h5>
                 <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen">
