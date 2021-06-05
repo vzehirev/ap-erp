@@ -36,25 +36,11 @@
                                     value="{{ old('sorted_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="partner_id" class="form-label">Закупен от*</label>
-                                <select class="form-select" id="partner_id" name="partner_id">
-                                    <option selected>Избери партньор</option>
-                                    @foreach ($partners as $partner)
-                                        <option value="{{ $partner->id }}"
-                                            {{ old('partner_id') == $partner->id ? 'selected' : '' }}>
-                                            {{ $partner->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="m-3">
-                                <label for="worker_id" class="form-label">Сортиран от*</label>
-                                <select class="form-select" id="worker_id" name="worker_id">
+                                <label for="workers[]" class="form-label">Сортиран от*</label>
+                                <select class="form-select" id="workers[]" name="workers[]" multiple>
                                     <option selected>Избери служител</option>
                                     @foreach ($workers as $worker)
-                                        <option value="{{ $worker->id }}"
-                                            {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
-                                        </option>
+                                        <option value="{{ $worker->id }}">{{ $worker->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -71,6 +57,11 @@
                                 </select>
                             </div>
                             <div class="m-3">
+                                <label for="wasted_quantity" class="form-label">Изхвърлено количество (боклук)*</label>
+                                <input type="text" class="form-control" id="wasted_quantity" name="wasted_quantity"
+                                    value="{{ old('wasted_quantity') }}">
+                            </div>
+                            <div class="m-3">
                                 <label for="to_material_id" class="form-label">Получен материал</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
                                     <option selected>Избери материал</option>
@@ -83,7 +74,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Сортирано количество*</label>
+                                <label for="quantity" class="form-label">Получено количество*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
@@ -104,7 +95,6 @@
                 <thead>
                     <tr>
                         <th scope="col">Дата</th>
-                        <th scope="col">Закупен от</th>
                         <th scope="col">Сортиран от</th>
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
@@ -115,8 +105,7 @@
                     @foreach ($sortedMaterials as $sortedMaterial)
                         <tr>
                             <td>{{ $sortedMaterial->sorted_on }}</td>
-                            <td>{{ $sortedMaterial->partner->name }}</td>
-                            <td>{{ $sortedMaterial->worker->name }}
+                            <td>{{ $sortedMaterial->workers }}
                             <td>{{ $sortedMaterial->from_material->name_and_code }}
                             <td>{{ $sortedMaterial->to_material->name_and_code }}
                             <td>{{ $sortedMaterial->quantity }}</td>

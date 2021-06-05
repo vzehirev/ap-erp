@@ -9,21 +9,16 @@ class SortedMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['sorted_on', 'partner_id', 'worker_id', 'from_material_id', 'to_material_id', 'quantity'];
+    protected $fillable = ['sorted_on', 'from_material_id', 'wasted_quantity', 'to_material_id', 'quantity'];
 
     function getSortedOnAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
 
-    function worker()
+    function workers()
     {
-        return $this->belongsTo(Worker::class);
-    }
-
-    function partner()
-    {
-        return $this->belongsTo(Partner::class);
+        return $this->belongsToMany(Worker::class);
     }
 
     function from_material()

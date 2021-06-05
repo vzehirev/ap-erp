@@ -59,6 +59,11 @@
                                 </select>
                             </div>
                             <div class="m-3">
+                                <label for="quantity_before" class="form-label">Изпрано количество (мръсно)*</label>
+                                <input type="text" class="form-control" id="quantity_before" name="quantity_before"
+                                    value="{{ old('quantity_before') }}">
+                            </div>
+                            <div class="m-3">
                                 <label for="to_material_id" class="form-label">Получен материал*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
                                     <option selected>Избери получен материал</option>
@@ -71,7 +76,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Изпрано количество*</label>
+                                <label for="quantity" class="form-label">Получено количество (чисто)*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>

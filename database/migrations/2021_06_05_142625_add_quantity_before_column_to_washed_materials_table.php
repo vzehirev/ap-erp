@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MakeMaterialsCodeNullable extends Migration
+class AddQuantityBeforeColumnToWashedMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class MakeMaterialsCodeNullable extends Migration
      */
     public function up()
     {
-        Schema::table('materials', function (Blueprint $table) {
-            $table->string('code')->nullable()->change();
+        Schema::table('washed_materials', function (Blueprint $table) {
+            $table->double('quantity_before');
         });
     }
 
@@ -25,8 +25,8 @@ class MakeMaterialsCodeNullable extends Migration
      */
     public function down()
     {
-        Schema::table('materials', function (Blueprint $table) {
-            $table->string('code')->change();
+        Schema::table('washed_materials', function (Blueprint $table) {
+            $table->dropColumn('quantity_before');
         });
     }
 }

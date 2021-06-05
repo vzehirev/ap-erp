@@ -32,10 +32,10 @@
                             <a class="nav-link text-center {{ Request::path() == 'bought-materials' ? 'text-decoration-underline active' : '' }}"
                                 aria-current="page" href="/bought-materials">Закупен материал</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link text-center {{ Request::path() == 'wasted-materials' ? 'text-decoration-underline active' : '' }}"
                                 aria-current="page" href="/wasted-materials">Брак</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link text-center {{ Request::path() == 'sorted-materials' ? 'text-decoration-underline active' : '' }}"
                                 aria-current="page" href="/sorted-materials">Сортиран материал</a>

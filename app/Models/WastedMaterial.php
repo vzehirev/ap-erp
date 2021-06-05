@@ -9,16 +9,16 @@ class WastedMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['wasted_on', 'worker_id', 'from_material_id', 'quantity'];
+    protected $fillable = ['wasted_on', 'from_material_id', 'quantity'];
 
     function getWastedOnAttribute($value)
     {
         return Carbon::parse($value)->format('d-M-Y');
     }
 
-    function worker()
+    function workers()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->belongsToMany(Worker::class);
     }
 
     function from_material()

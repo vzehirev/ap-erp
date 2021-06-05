@@ -9,7 +9,7 @@ class WashedMaterial extends NoTimestampsModel
 {
     use UpdateMaterialsAvailableQuantities;
 
-    protected $fillable = ['washed_on', 'worker_id', 'from_material_id', 'quantity', 'to_material_id'];
+    protected $fillable = ['washed_on', 'worker_id', 'from_material_id', 'quantity_before', 'quantity', 'to_material_id'];
 
     function getWashedOnAttribute($value)
     {

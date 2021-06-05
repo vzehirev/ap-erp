@@ -27,10 +27,10 @@ class StoreSortedMaterialRequest extends FormRequest
     {
         return [
             'sorted_on' => ['required', 'date'],
-            'partner_id' => ['required', 'integer'],
-            'worker_id' => ['required', 'integer'],
+            'workers' => ['exists:workers,id'],
             'from_material_id' => ['nullable'],
             'to_material_id' => ['nullable'],
+            'wasted_quantity' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
         ];
     }

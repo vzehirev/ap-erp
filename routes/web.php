@@ -37,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bought-materials', [MaterialsController::class, 'indexBoughtMaterials']);
     Route::post('/bought-materials', [MaterialsController::class, 'storeBoughtMaterial']);
 
-    Route::get('/wasted-materials', [MaterialsController::class, 'indexWastedMaterials']);
-    Route::post('/wasted-materials', [MaterialsController::class, 'storeWastedMaterial']);
+    // Route::get('/wasted-materials', [MaterialsController::class, 'indexWastedMaterials']);
+    // Route::post('/wasted-materials', [MaterialsController::class, 'storeWastedMaterial']);
 
     Route::get('/sorted-materials', [MaterialsController::class, 'indexSortedMaterials']);
     Route::post('/sorted-materials', [MaterialsController::class, 'storeSortedMaterial']);

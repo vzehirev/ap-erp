@@ -36,13 +36,11 @@
                                     value="{{ old('wasted_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Бракуван от</label>
-                                <select class="form-select" id="worker_id" name="worker_id">
+                                <label for="workers[]" class="form-label">Бракуван от</label>
+                                <select class="form-select" id="workers[]" name="workers[]" multiple>
                                     <option selected value="">Избери служител</option>
                                     @foreach ($workers as $worker)
-                                        <option value="{{ $worker->id }}"
-                                            {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
-                                        </option>
+                                        <option value="{{ $worker->id }}">{{ $worker->name }} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -89,7 +87,7 @@
                     @foreach ($wastedMaterials as $wastedMaterial)
                         <tr>
                             <td>{{ $wastedMaterial->wasted_on }}</td>
-                            <td>{{ $wastedMaterial->worker == null ? '' : $wastedMaterial->worker->name }}
+                            <td>{{ $wastedMaterial->workers }}
                             <td>{{ $wastedMaterial->from_material->name_and_code }}</td>
                             <td>{{ $wastedMaterial->quantity }}</td>
                             </td>

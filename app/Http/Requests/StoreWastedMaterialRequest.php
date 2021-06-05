@@ -27,7 +27,7 @@ class StoreWastedMaterialRequest extends FormRequest
     {
         return [
             'wasted_on' => ['required', 'date'],
-            'worker_id' => ['nullable'],
+            'workers' => ['exists:workers,id'],
             'from_material_id' => ['required', 'integer'],
             'quantity' => ['required', 'numeric'],
         ];

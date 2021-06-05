@@ -50,8 +50,8 @@ class MaterialsController extends Controller
 
     function storeWastedMaterial(StoreWastedMaterialRequest $request)
     {
-        $wastedMaterialType =
-            WastedMaterial::create($request->validated());
+        $model = WastedMaterial::create($request->validated());
+        $model->workers()->attach($request->workers);
 
         return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
     }
@@ -61,14 +61,15 @@ class MaterialsController extends Controller
         $materials = Material::orderBy('name', 'asc')->get();
         $partners = Partner::orderBy('name', 'asc')->get();
         $workers = Worker::orderBy('name', 'asc')->get();
-        $sortedMaterials = SortedMaterial::orderBy('sorted_on', 'desc')->with('worker', 'partner', 'from_material', 'to_material')->paginate(100);
+        $sortedMaterials = SortedMaterial::orderBy('sorted_on', 'desc')->with('workers', 'from_material', 'to_material')->paginate(100);
 
         return view('materials.sorted', ['materials' => $materials, 'partners' => $partners, 'workers' => $workers, 'sortedMaterials' => $sortedMaterials]);
     }
 
     function storeSortedMaterial(StoreSortedMaterialRequest $request)
     {
-        SortedMaterial::create($request->validated());
+        $model = SortedMaterial::create($request->validated());
+        $model->workers()->attach($request->workers);
 
         return back()->with('success', 'Успешно добавен сортиран материал.');
     }
