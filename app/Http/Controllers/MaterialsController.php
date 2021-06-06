@@ -34,27 +34,28 @@ class MaterialsController extends Controller
 
     function storeBoughtMaterial(StoreBoughtMaterialRequest $request)
     {
-        BoughtMaterial::create($request->validated());
+        $model = BoughtMaterial::create($request->validated());
+        $model->material->increaseAvailableQuantity($model->quantity);
 
         return redirect()->back()->with('success', 'Успешно добавен закупен материал.');
     }
 
-    function indexWastedMaterials()
-    {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $workers = Worker::orderBy('name', 'asc')->get();
-        $wastedMaterials = WastedMaterial::orderBy('wasted_on', 'desc')->with('from_material', 'worker')->paginate(100);
+    // function indexWastedMaterials()
+    // {
+    //     $materials = Material::orderBy('name', 'asc')->get();
+    //     $workers = Worker::orderBy('name', 'asc')->get();
+    //     $wastedMaterials = WastedMaterial::orderBy('wasted_on', 'desc')->with('from_material', 'worker')->paginate(100);
 
-        return view('materials.wasted', ['materials' => $materials, 'workers' => $workers, 'wastedMaterials' => $wastedMaterials]);
-    }
+    //     return view('materials.wasted', ['materials' => $materials, 'workers' => $workers, 'wastedMaterials' => $wastedMaterials]);
+    // }
 
-    function storeWastedMaterial(StoreWastedMaterialRequest $request)
-    {
-        $model = WastedMaterial::create($request->validated());
-        $model->workers()->attach($request->workers);
+    // function storeWastedMaterial(StoreWastedMaterialRequest $request)
+    // {
+    //     $model = WastedMaterial::create($request->validated());
+    //     $model->workers()->attach($request->workers);
 
-        return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
-    }
+    //     return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
+    // }
 
     function indexSortedMaterials()
     {
@@ -71,6 +72,16 @@ class MaterialsController extends Controller
         $model = SortedMaterial::create($request->validated());
         $model->workers()->attach($request->workers);
 
+        $model->from_material->decreaseAvailableQuantity($request->wasted_quantity + $request->quantity);
+        $model->to_material->increaseAvailableQuantity($model->quantity);
+
+        WastedMaterial::create([
+            'wasted_on' => $request->sorted_on,
+            'quantity' => $request->wasted_quantity,
+            'sorted_material_id' => $model->id,
+            'from_material_id' => $request->from_material_id,
+        ]);
+
         return back()->with('success', 'Успешно добавен сортиран материал.');
     }
 
@@ -85,7 +96,10 @@ class MaterialsController extends Controller
 
     function storeGroundMaterial(StoreGroundMaterialRequest $request)
     {
-        GroundMaterial::create($request->validated());
+        $model = GroundMaterial::create($request->validated());
+
+        $model->from_material->decreaseAvailableQuantity($model->quantity);
+        $model->to_material->increaseAvailableQuantity($model->quantity);
 
         return back()->with('success', 'Успешно добавен смлян материал.');
     }
@@ -101,7 +115,17 @@ class MaterialsController extends Controller
 
     function storeWashedMaterial(StoreWashedMaterialRequest $request)
     {
-        WashedMaterial::create($request->validated());
+        $model = WashedMaterial::create($request->validated());
+
+        $model->from_material->decreaseAvailableQuantity($request->quantity_before);
+        $model->to_material->increaseAvailableQuantity($model->quantity);
+
+        WastedMaterial::create([
+            'wasted_on' => $request->washed_on,
+            'quantity' => $request->quantity_before - $request->quantity,
+            'washed_material_id' => $model->id,
+            'from_material_id' => $request->from_material_id,
+        ]);
 
         return back()->with('success', 'Успешно добавен изпран материал.');
     }
@@ -117,7 +141,17 @@ class MaterialsController extends Controller
 
     function storeGranularMaterial(StoreGranularMaterialRequest $request)
     {
-        GranularMaterial::create($request->validated());
+        $model = GranularMaterial::create($request->validated());
+
+        $model->from_material->decreaseAvailableQuantity($request->quantity_before);
+        $model->to_material->increaseAvailableQuantity($model->quantity);
+
+        WastedMaterial::create([
+            'wasted_on' => $request->granular_on,
+            'quantity' => $request->quantity_before - $request->quantity,
+            'granular_material_id' => $model->id,
+            'from_material_id' => $request->from_material_id,
+        ]);
 
         return back()->with('success', 'Успешно добавен гранулиран материал.');
     }
@@ -132,7 +166,9 @@ class MaterialsController extends Controller
 
     function storeSoldMaterial(StoreSoldMaterialRequest $request)
     {
-        SoldMaterial::create($request->validated());
+        $model = SoldMaterial::create($request->validated());
+
+        $model->material->decreaseAvailableQuantity($model->quantity);
 
         return back()->with('success', 'Успешно добавен продаден материал.');
     }

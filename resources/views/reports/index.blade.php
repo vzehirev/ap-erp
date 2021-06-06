@@ -36,9 +36,9 @@
                         <div class="mb-3 text-decoration-underline">Закупени материали</div>
                         <div>
                             <p class="mx-3 my-0">Общо количество:
-                                <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
+                                <strong>{{ $boughtMaterialsTotal[0]->quantity ?? 0 }}</strong>
                             </p>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $boughtMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
                             </p>
                             <p class="mx-3 my-0">Средна цена:
                                 <strong>{{ round($boughtMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
@@ -297,9 +297,9 @@
                         <div class="mb-3 text-decoration-underline">Продадени материали</div>
                         <div>
                             <p class="mx-3 my-0">Общо количество:
-                                <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
+                                <strong>{{ $soldMaterialsTotal[0]->quantity ?? 0 }}</strong>
                             </p>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $soldMaterialsTotal[0]->quantity ?? 0 }}</strong>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
                             </p>
                             <p class="mx-3 my-0">Средна цена:
                                 <strong>{{ round($soldMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>

@@ -42,11 +42,11 @@ class MakeSortedMaterialsAndWastedMaterialsWithManyToManyRelationshipWithWorkers
     public function down()
     {
         Schema::table('sorted_materials', function (Blueprint $table) {
-            $table->foreignId('worker_id')->constrained();
+            $table->foreignId('worker_id')->nullable()->constrained();
         });
 
         Schema::table('wasted_materials', function (Blueprint $table) {
-            $table->foreignId('worker_id')->constrained();
+            $table->foreignId('worker_id')->nullable()->constrained();
         });
 
         Schema::dropIfExists('sorted_material_worker');

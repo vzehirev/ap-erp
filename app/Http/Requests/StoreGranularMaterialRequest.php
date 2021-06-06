@@ -29,6 +29,7 @@ class StoreGranularMaterialRequest extends FormRequest
             'granular_on' => ['required', 'date'],
             'worker_id' => ['required', 'integer'],
             'from_material_id' => ['required', 'integer'],
+            'quantity_before' => ['required', 'numeric'],
             'to_material_id' => ['required', 'integer'],
             'quantity' => ['required', 'numeric'],
         ];

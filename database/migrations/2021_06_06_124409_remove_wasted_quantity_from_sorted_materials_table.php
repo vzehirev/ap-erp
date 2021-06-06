@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemovePartnerIdFromSortedMaterialsTable extends Migration
+class RemoveWastedQuantityFromSortedMaterialsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class RemovePartnerIdFromSortedMaterialsTable extends Migration
     public function up()
     {
         Schema::table('sorted_materials', function (Blueprint $table) {
-            $table->dropForeign('sorted_materials_partner_id_foreign');
-            $table->dropColumn('partner_id');
+            $table->dropColumn('wasted_quantity');
         });
     }
 
@@ -27,7 +26,7 @@ class RemovePartnerIdFromSortedMaterialsTable extends Migration
     public function down()
     {
         Schema::table('sorted_materials', function (Blueprint $table) {
-            $table->foreignId('partner_id')->nullable()->constrained();
+            $table->double('wasted_quantity');
         });
     }
 }

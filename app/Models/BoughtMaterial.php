@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\UpdateMaterialsAvailableQuantities;
 use Carbon\Carbon;
 
 class BoughtMaterial extends NoTimestampsModel
 {
-    use UpdateMaterialsAvailableQuantities;
-
     protected $fillable = ['bought_on', 'partner_id', 'price', 'quantity', 'material_id', 'invoice_num'];
 
     function getBoughtOnAttribute($value)

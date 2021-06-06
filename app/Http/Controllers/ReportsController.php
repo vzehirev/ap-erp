@@ -70,7 +70,7 @@ class ReportsController extends Controller
                 ->orderBy('materials.name', 'asc'),
 
             'wastedMaterials' => DB::table('wasted_materials')
-                ->join('materials', 'wasted_materials.from_material_id', '=', 'materials.id')
+                ->join('materials', 'materials.id', '=', 'wasted_materials.from_material_id')
                 ->select(
                     'materials.name',
                     'materials.code',

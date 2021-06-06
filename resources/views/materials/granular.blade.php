@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал</label>
+                                <label for="from_material_id" class="form-label">От материал*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
@@ -59,7 +59,12 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал</label>
+                                <label for="quantity_before" class="form-label">Количество изпран материал*</label>
+                                <input type="text" class="form-control" id="quantity_before" name="quantity_before"
+                                    value="{{ old('quantity_before') }}">
+                            </div>
+                            <div class="m-3">
+                                <label for="to_material_id" class="form-label">Получен материал*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)

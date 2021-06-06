@@ -35,17 +35,26 @@
                                 <input type="date" class="form-control" id="sorted_on" name="sorted_on"
                                     value="{{ old('sorted_on') }}">
                             </div>
-                            <div class="m-3">
-                                <label for="workers[]" class="form-label">Сортиран от*</label>
-                                <select class="form-select" id="workers[]" name="workers[]" multiple>
-                                    <option selected>Избери служител</option>
+                            <div class="btn-group">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                    id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                    aria-expanded="false">
+                                    Избери служител/и*
+                                </button>
+                                <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuClickableInside">
                                     @foreach ($workers as $worker)
-                                        <option value="{{ $worker->id }}">{{ $worker->name }}</option>
+                                        <div class="ms-3 form-check">
+                                            <input class="form-check-input" type="checkbox" value="{{ $worker->id }}"
+                                                id="{{ $worker->id }}" name="workers[]">
+                                            <label class="form-check-label" for="{{ $worker->id }}">
+                                                {{ $worker->name }}
+                                            </label>
+                                        </div>
                                     @endforeach
-                                </select>
+                                </div>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал</label>
+                                <label for="from_material_id" class="form-label">От материал*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
@@ -62,7 +71,7 @@
                                     value="{{ old('wasted_quantity') }}">
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал</label>
+                                <label for="to_material_id" class="form-label">Получен материал*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\UpdateMaterialsAvailableQuantities;
 use Carbon\Carbon;
 
 class GranularMaterial extends NoTimestampsModel
 {
-    use UpdateMaterialsAvailableQuantities;
-
     protected $fillable = ['granular_on', 'worker_id', 'from_material_id', 'to_material_id', 'quantity'];
 
     function getGranularOnAttribute($value)
