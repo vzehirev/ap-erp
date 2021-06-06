@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/bought-materials', [MaterialsController::class, 'indexBoughtMaterials']);
     Route::post('/bought-materials', [MaterialsController::class, 'storeBoughtMaterial']);
+    Route::post('/delete-bought-material/{bought_material}', [MaterialsController::class, 'deleteBoughtMaterial']);
 
     // Route::get('/wasted-materials', [MaterialsController::class, 'indexWastedMaterials']);
     // Route::post('/wasted-materials', [MaterialsController::class, 'storeWastedMaterial']);

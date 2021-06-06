@@ -96,6 +96,7 @@
                         <th scope="col">Цена</th>
                         <th scope="col">Закупено количество</th>
                         <th scope="col">Фактура №</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,6 +109,11 @@
                             <td>{{ $boughtMaterial->price }}</td>
                             <td>{{ $boughtMaterial->quantity }}</td>
                             <td>{{ $boughtMaterial->invoice_num }}</td>
+                            <td>
+                                <form action="/delete-bought-material/{{ $boughtMaterial->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

@@ -40,6 +40,14 @@ class MaterialsController extends Controller
         return redirect()->back()->with('success', 'Успешно добавен закупен материал.');
     }
 
+    function deleteBoughtMaterial(BoughtMaterial $bought_material)
+    {
+        $bought_material->material->decreaseAvailableQuantity($bought_material->quantity);
+        $bought_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит закупен материал.');
+    }
+
     // function indexWastedMaterials()
     // {
     //     $materials = Material::orderBy('name', 'asc')->get();
