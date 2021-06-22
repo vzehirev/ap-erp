@@ -43,27 +43,35 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/sorted-materials', [MaterialsController::class, 'indexSortedMaterials']);
     Route::post('/sorted-materials', [MaterialsController::class, 'storeSortedMaterial']);
+    Route::post('/delete-sorted-material/{sorted_material}', [MaterialsController::class, 'deleteSortedMaterial']);
 
     Route::get('/ground-materials', [MaterialsController::class, 'indexGroundMaterials']);
     Route::post('/ground-materials', [MaterialsController::class, 'storeGroundMaterial']);
+    Route::post('/delete-ground-material/{ground_material}', [MaterialsController::class, 'deleteGroundMaterial']);
 
     Route::get('/washed-materials', [MaterialsController::class, 'indexWashedMaterials']);
     Route::post('/washed-materials', [MaterialsController::class, 'storeWashedMaterial']);
+    Route::post('/delete-washed-material/{washed_material}', [MaterialsController::class, 'deleteWashedMaterial']);
 
     Route::get('/granular-materials', [MaterialsController::class, 'indexGranularMaterials']);
     Route::post('/granular-materials', [MaterialsController::class, 'storeGranularMaterial']);
+    Route::post('/delete-granular-material/{granular_material}', [MaterialsController::class, 'deleteGranularMaterial']);
 
     Route::get('/sold-materials', [MaterialsController::class, 'indexSoldMaterials']);
     Route::post('/sold-materials', [MaterialsController::class, 'storeSoldMaterial']);
+    Route::post('/delete-sold-material/{sold_material}', [MaterialsController::class, 'deleteSoldMaterial']);
 
     Route::get('/expenses', [ExpensesController::class, 'index']);
     Route::post('/expenses', [ExpensesController::class, 'store']);
+    Route::post('/delete-expense/{expense}', [ExpensesController::class, 'delete']);
 
     Route::get('/salaries', [SalariesController::class, 'index']);
     Route::post('/salaries', [SalariesController::class, 'store']);
+    Route::post('/delete-salary/{salary}', [SalariesController::class, 'delete']);
 
     Route::get('/prepaid', [PrepaidController::class, 'index']);
     Route::post('/prepaid', [PrepaidController::class, 'store']);
+    Route::post('/delete-prepaid/{prepaid}', [PrepaidController::class, 'delete']);
 
     Route::get('/reports', [ReportsController::class, 'index']);
     Route::post('/reports', [ReportsController::class, 'index']);

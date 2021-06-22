@@ -22,4 +22,11 @@ class PrepaidController extends Controller
 
         return back()->with('success', 'Успешно добавена предплата.');
     }
+
+    function delete(Prepaid $prepaid)
+    {
+        $prepaid->delete();
+
+        return back()->with('success', 'Успешно изтрита предплата.');
+    }
 }

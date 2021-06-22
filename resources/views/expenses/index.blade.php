@@ -55,7 +55,6 @@
             </div>
         </div>
 
-        {{-- Bought materials table --}}
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -63,14 +62,20 @@
                         <th scope="col">Дата</th>
                         <th scope="col">Вид разход</th>
                         <th scope="col">Цена</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($madeExpenses as $madeExpense)
+                    @foreach ($madeExpenses as $expense)
                         <tr>
-                            <td>{{ $madeExpense->made_on }}</td>
-                            <td>{{ $madeExpense->type }}</td>
-                            <td>{{ $madeExpense->price }}</td>
+                            <td>{{ $expense->made_on }}</td>
+                            <td>{{ $expense->type }}</td>
+                            <td>{{ $expense->price }}</td>
+                            <td>
+                                <form action="/delete-expense/{{ $expense->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

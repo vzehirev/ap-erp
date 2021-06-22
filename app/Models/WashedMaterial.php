@@ -27,4 +27,9 @@ class WashedMaterial extends NoTimestampsModel
     {
         return $this->belongsTo(Material::class);
     }
+
+    function wasted_material()
+    {
+        return $this->hasOne(WastedMaterial::class);
+    }
 }

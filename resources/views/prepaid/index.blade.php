@@ -62,7 +62,6 @@
             </div>
         </div>
 
-        {{-- Bought materials table --}}
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -70,6 +69,7 @@
                         <th scope="col">Дата</th>
                         <th scope="col">Служител</th>
                         <th scope="col">Сума</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +78,11 @@
                             <td>{{ $pp->paid_on }}</td>
                             <td>{{ $pp->worker->name }}</td>
                             <td>{{ $pp->price }}</td>
+                            <td>
+                                <form action="/delete-prepaid/{{ $pp->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

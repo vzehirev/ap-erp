@@ -101,16 +101,21 @@
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
                         <th scope="col">Гранулирано количество</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($granularMaterials as $granularMaterial)
                         <tr>
                             <td>{{ $granularMaterial->granular_on }}</td>
-                            <td>{{ $granularMaterial->worker->name }}
+                            <td>{{ $granularMaterial->worker->name }}</td>
                             <td>{{ $granularMaterial->from_material->name_and_code }}</td>
                             <td>{{ $granularMaterial->to_material->name_and_code }}</td>
                             <td>{{ $granularMaterial->quantity }}</td>
+                            <td>
+                                <form action="/delete-granular-material/{{ $granularMaterial->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

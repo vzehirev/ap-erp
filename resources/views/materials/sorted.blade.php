@@ -108,16 +108,21 @@
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
                         <th scope="col">Сортирано количество</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($sortedMaterials as $sortedMaterial)
                         <tr>
                             <td>{{ $sortedMaterial->sorted_on }}</td>
-                            <td>{{ $sortedMaterial->workers }}
-                            <td>{{ $sortedMaterial->from_material->name_and_code }}
-                            <td>{{ $sortedMaterial->to_material->name_and_code }}
+                            <td>{{ $sortedMaterial->workers->implode('name', ', ') }}</td>
+                            <td>{{ $sortedMaterial->from_material->name_and_code }}</td>
+                            <td>{{ $sortedMaterial->to_material->name_and_code }}</td>
                             <td>{{ $sortedMaterial->quantity }}</td>
+                            <td>
+                                <form action="/delete-sorted-material/{{ $sortedMaterial->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

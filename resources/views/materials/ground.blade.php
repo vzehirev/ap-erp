@@ -96,16 +96,21 @@
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
                         <th scope="col">Смляно количество</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($groundMaterials as $groundMaterial)
                         <tr>
                             <td>{{ $groundMaterial->ground_on }}</td>
-                            <td>{{ $groundMaterial->worker->name }}
+                            <td>{{ $groundMaterial->worker->name }}</td>
                             <td>{{ $groundMaterial->from_material->name_and_code }}</td>
                             <td>{{ $groundMaterial->to_material->name_and_code }}</td>
                             <td>{{ $groundMaterial->quantity }}</td>
+                            <td>
+                                <form action="/delete-ground-material/{{ $groundMaterial->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach

@@ -90,7 +90,6 @@
             </div>
         </div>
 
-        {{-- Bought materials table --}}
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead>
@@ -103,6 +102,7 @@
                         <th scope="col">Продадено количество</th>
                         <th scope="col">Платен</th>
                         <th scope="col">Фактура №</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +116,11 @@
                             <td>{{ $soldMaterial->quantity }}</td>
                             <td>{{ $soldMaterial->paid ? 'Дa' : 'Не' }}</td>
                             <td>{{ $soldMaterial->invoice_num }}</td>
+                            <td>
+                                <form action="/delete-sold-material/{{ $soldMaterial->id }}" method="post">@csrf
+                                    <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

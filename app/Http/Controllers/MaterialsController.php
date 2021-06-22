@@ -93,6 +93,17 @@ class MaterialsController extends Controller
         return back()->with('success', 'Успешно добавен сортиран материал.');
     }
 
+    function deleteSortedMaterial(SortedMaterial $sorted_material)
+    {
+        $sorted_material->from_material->increaseAvailableQuantity($sorted_material->wasted_material->quantity + $sorted_material->quantity);
+        $sorted_material->to_material->decreaseAvailableQuantity($sorted_material->quantity);
+        $sorted_material->wasted_material->delete();
+        $sorted_material->workers()->detach();
+        $sorted_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит сортиран материал.');
+    }
+
     function indexGroundMaterials()
     {
         $materials = Material::orderBy('name', 'asc')->get();
@@ -110,6 +121,16 @@ class MaterialsController extends Controller
         $model->to_material->increaseAvailableQuantity($model->quantity);
 
         return back()->with('success', 'Успешно добавен смлян материал.');
+    }
+
+    function deleteGroundMaterial(GroundMaterial $ground_material)
+    {
+        $ground_material->from_material->increaseAvailableQuantity($ground_material->quantity);
+        $ground_material->to_material->decreaseAvailableQuantity($ground_material->quantity);
+
+        $ground_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит смлян материал.');
     }
 
     function indexWashedMaterials()
@@ -138,6 +159,17 @@ class MaterialsController extends Controller
         return back()->with('success', 'Успешно добавен изпран материал.');
     }
 
+    function deleteWashedMaterial(WashedMaterial $washed_material)
+    {
+        $washed_material->from_material->increaseAvailableQuantity($washed_material->quantity_before);
+        $washed_material->to_material->decreaseAvailableQuantity($washed_material->quantity);
+
+        $washed_material->wasted_material->delete();
+        $washed_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит изпран материал.');
+    }
+
     function indexGranularMaterials()
     {
         $materials = Material::orderBy('name', 'asc')->get();
@@ -163,6 +195,18 @@ class MaterialsController extends Controller
 
         return back()->with('success', 'Успешно добавен гранулиран материал.');
     }
+
+    function deleteGranularMaterial(GranularMaterial $granular_material)
+    {
+        $granular_material->from_material->increaseAvailableQuantity($granular_material->quantity_before);
+        $granular_material->to_material->decreaseAvailableQuantity($granular_material->quantity);
+
+        $granular_material->wasted_material->delete();
+        $granular_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит гранулиран материал.');
+    }
+
     function indexSoldMaterials()
     {
         $materials = Material::orderBy('name', 'asc')->get();
@@ -179,5 +223,14 @@ class MaterialsController extends Controller
         $model->material->decreaseAvailableQuantity($model->quantity);
 
         return back()->with('success', 'Успешно добавен продаден материал.');
+    }
+
+    function deleteSoldMaterial(SoldMaterial $sold_material)
+    {
+        $sold_material->material->increaseAvailableQuantity($sold_material->quantity);
+
+        $sold_material->delete();
+
+        return redirect()->back()->with('success', 'Успешно изтрит продаден материал.');
     }
 }

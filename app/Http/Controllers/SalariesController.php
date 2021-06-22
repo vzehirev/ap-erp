@@ -22,4 +22,11 @@ class SalariesController extends Controller
 
         return back()->with('success', 'Успешно добавена заплата.');
     }
+
+    function delete(Salary $salary)
+    {
+        $salary->delete();
+
+        return back()->with('success', 'Успешно изтрита заплата.');
+    }
 }

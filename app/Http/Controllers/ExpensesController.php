@@ -20,4 +20,11 @@ class ExpensesController extends Controller
 
         return back()->with('success', 'Успешно добавен разход.');
     }
+
+    function delete(Expense $expense)
+    {
+        $expense->delete();
+
+        return back()->with('success', 'Успешно изтрит разход.');
+    }
 }
