@@ -102,14 +102,14 @@
                 <tbody>
                     @foreach ($boughtMaterials as $boughtMaterial)
                         <tr>
-                            <td>{{ $boughtMaterial->bought_on }}</td>
-                            <td>{{ $boughtMaterial->partner->name }}</td>
-                            <td>{{ $boughtMaterial->material->name }}</td>
-                            <td>{{ $boughtMaterial->material->code }}</td>
-                            <td>{{ $boughtMaterial->price }}</td>
-                            <td>{{ $boughtMaterial->quantity }}</td>
-                            <td>{{ $boughtMaterial->invoice_num }}</td>
-                            <td>
+                            <td class="align-middle">{{ $boughtMaterial->bought_on }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->partner->name }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->material->name }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->material->code }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->price }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->quantity }}</td>
+                            <td class="align-middle">{{ $boughtMaterial->invoice_num }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-bought-material/{{ $boughtMaterial->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

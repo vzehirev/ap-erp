@@ -61,10 +61,10 @@
                                 <tbody>
                                     @foreach ($boughtMaterials as $boughtMaterial)
                                         <tr>
-                                            <td>{{ $boughtMaterial->name }}</td>
-                                            <td>{{ $boughtMaterial->code }}</td>
-                                            <td>{{ $boughtMaterial->quantity }}</td>
-                                            <td>{{ round($boughtMaterial->avg_price, 2) }}</td>
+                                            <td class="align-middle">{{ $boughtMaterial->name }}</td>
+                                            <td class="align-middle">{{ $boughtMaterial->code }}</td>
+                                            <td class="align-middle">{{ $boughtMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ round($boughtMaterial->avg_price, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -101,9 +101,9 @@
                                 <tbody>
                                     @foreach ($wastedMaterials as $wastedMaterial)
                                         <tr>
-                                            <td>{{ $wastedMaterial->name }}</td>
-                                            <td>{{ $wastedMaterial->code }}</td>
-                                            <td>{{ $wastedMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ $wastedMaterial->name }}</td>
+                                            <td class="align-middle">{{ $wastedMaterial->code }}</td>
+                                            <td class="align-middle">{{ $wastedMaterial->quantity }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -142,11 +142,11 @@
                                 <tbody>
                                     @foreach ($sortedMaterials as $sortedMaterial)
                                         <tr>
-                                            <td>{{ $sortedMaterial->from_material_name }}</td>
-                                            <td>{{ $sortedMaterial->from_material_code }}</td>
-                                            <td>{{ $sortedMaterial->to_material_name }}</td>
-                                            <td>{{ $sortedMaterial->to_material_code }}</td>
-                                            <td>{{ $sortedMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ $sortedMaterial->from_material_name }}</td>
+                                            <td class="align-middle">{{ $sortedMaterial->from_material_code }}</td>
+                                            <td class="align-middle">{{ $sortedMaterial->to_material_name }}</td>
+                                            <td class="align-middle">{{ $sortedMaterial->to_material_code }}</td>
+                                            <td class="align-middle">{{ $sortedMaterial->quantity }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -186,11 +186,11 @@
                                 <tbody>
                                     @foreach ($groundMaterials as $groundMaterial)
                                         <tr>
-                                            <td>{{ $groundMaterial->from_material_name }}</td>
-                                            <td>{{ $groundMaterial->from_material_code }}</td>
-                                            <td>{{ $groundMaterial->to_material_name }}</td>
-                                            <td>{{ $groundMaterial->to_material_code }}</td>
-                                            <td>{{ $groundMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ $groundMaterial->from_material_name }}</td>
+                                            <td class="align-middle">{{ $groundMaterial->from_material_code }}</td>
+                                            <td class="align-middle">{{ $groundMaterial->to_material_name }}</td>
+                                            <td class="align-middle">{{ $groundMaterial->to_material_code }}</td>
+                                            <td class="align-middle">{{ $groundMaterial->quantity }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -230,11 +230,11 @@
                                 <tbody>
                                     @foreach ($washedMaterials as $washedMaterial)
                                         <tr>
-                                            <td>{{ $washedMaterial->from_material_name }}</td>
-                                            <td>{{ $washedMaterial->from_material_code }}</td>
-                                            <td>{{ $washedMaterial->to_material_name }}</td>
-                                            <td>{{ $washedMaterial->to_material_code }}</td>
-                                            <td>{{ $washedMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ $washedMaterial->from_material_name }}</td>
+                                            <td class="align-middle">{{ $washedMaterial->from_material_code }}</td>
+                                            <td class="align-middle">{{ $washedMaterial->to_material_name }}</td>
+                                            <td class="align-middle">{{ $washedMaterial->to_material_code }}</td>
+                                            <td class="align-middle">{{ $washedMaterial->quantity }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -274,11 +274,11 @@
                                 <tbody>
                                     @foreach ($granularMaterials as $granularMaterial)
                                         <tr>
-                                            <td>{{ $granularMaterial->from_material_name }}</td>
-                                            <td>{{ $granularMaterial->from_material_code }}</td>
-                                            <td>{{ $granularMaterial->to_material_name }}</td>
-                                            <td>{{ $granularMaterial->to_material_code }}</td>
-                                            <td>{{ $granularMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->from_material_name }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->from_material_code }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->to_material_name }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->to_material_code }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->quantity }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -323,11 +323,11 @@
                                 <tbody>
                                     @foreach ($soldMaterials as $soldMaterial)
                                         <tr>
-                                            <td>{{ $soldMaterial->name }}</td>
-                                            <td>{{ $soldMaterial->code }}</td>
-                                            <td>{{ $soldMaterial->sold_to }}</td>
-                                            <td>{{ $soldMaterial->quantity }}</td>
-                                            <td>{{ round($soldMaterial->avg_price, 2) }}</td>
+                                            <td class="align-middle">{{ $soldMaterial->name }}</td>
+                                            <td class="align-middle">{{ $soldMaterial->code }}</td>
+                                            <td class="align-middle">{{ $soldMaterial->sold_to }}</td>
+                                            <td class="align-middle">{{ $soldMaterial->quantity }}</td>
+                                            <td class="align-middle">{{ round($soldMaterial->avg_price, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -362,8 +362,8 @@
                                 <tbody>
                                     @foreach ($expenses as $expense)
                                         <tr>
-                                            <td>{{ $expense->type }}</td>
-                                            <td>{{ $expense->price }}</td>
+                                            <td class="align-middle">{{ $expense->type }}</td>
+                                            <td class="align-middle">{{ $expense->price }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -398,8 +398,8 @@
                                 <tbody>
                                     @foreach ($salaries as $salary)
                                         <tr>
-                                            <td>{{ $salary->name }}</td>
-                                            <td>{{ $salary->price }}</td>
+                                            <td class="align-middle">{{ $salary->name }}</td>
+                                            <td class="align-middle">{{ $salary->price }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -434,8 +434,8 @@
                                 <tbody>
                                     @foreach ($prepaid as $pp)
                                         <tr>
-                                            <td>{{ $pp->name }}</td>
-                                            <td>{{ $pp->price }}</td>
+                                            <td class="align-middle">{{ $pp->name }}</td>
+                                            <td class="align-middle">{{ $pp->price }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -80,11 +80,11 @@
                 <tbody>
                     @foreach ($salaries as $salary)
                         <tr>
-                            <td>{{ $salary->date }}</td>
-                            <td>{{ $salary->worker->name }}</td>
-                            <td>{{ $salary->price }}</td>
-                            <td>{{ $salary->paid ? 'Да' : 'Не' }}</td>
-                            <td>
+                            <td class="align-middle">{{ $salary->date }}</td>
+                            <td class="align-middle">{{ $salary->worker->name }}</td>
+                            <td class="align-middle">{{ $salary->price }}</td>
+                            <td class="align-middle">{{ $salary->paid ? 'Да' : 'Не' }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-salary/{{ $salary->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

@@ -60,7 +60,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Дата</th>
-                        <th scope="col">Вид разход</th>
+                        <th scope="col">Вид/Тип разход</th>
                         <th scope="col">Цена</th>
                         <th></th>
                     </tr>
@@ -68,10 +68,10 @@
                 <tbody>
                     @foreach ($madeExpenses as $expense)
                         <tr>
-                            <td>{{ $expense->made_on }}</td>
-                            <td>{{ $expense->type }}</td>
-                            <td>{{ $expense->price }}</td>
-                            <td>
+                            <td class="align-middle">{{ $expense->made_on }}</td>
+                            <td class="align-middle">{{ $expense->type }}</td>
+                            <td class="align-middle">{{ $expense->price }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-expense/{{ $expense->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

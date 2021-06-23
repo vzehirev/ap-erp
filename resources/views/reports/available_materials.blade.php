@@ -16,9 +16,9 @@
                 <tbody>
                     @foreach ($availableMaterials as $availableMaterial)
                         <tr>
-                            <td>{{ $availableMaterial->name }}</td>
-                            <td>{{ $availableMaterial->code }}</td>
-                            <td>{{ $availableMaterial->available_quantity }}</td>
+                            <td class="align-middle">{{ $availableMaterial->name }}</td>
+                            <td class="align-middle">{{ $availableMaterial->code }}</td>
+                            <td class="align-middle">{{ $availableMaterial->available_quantity }}</td>
                         </tr>
                     @endforeach
                 </tbody>

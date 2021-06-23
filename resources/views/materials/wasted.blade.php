@@ -86,10 +86,10 @@
                 <tbody>
                     @foreach ($wastedMaterials as $wastedMaterial)
                         <tr>
-                            <td>{{ $wastedMaterial->wasted_on }}</td>
-                            <td>{{ $wastedMaterial->workers }}
-                            <td>{{ $wastedMaterial->from_material->name_and_code }}</td>
-                            <td>{{ $wastedMaterial->quantity }}</td>
+                            <td class="align-middle">{{ $wastedMaterial->wasted_on }}</td>
+                            <td class="align-middle">{{ $wastedMaterial->workers }}
+                            <td class="align-middle">{{ $wastedMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $wastedMaterial->quantity }}</td>
                             </td>
                         </tr>
                     @endforeach

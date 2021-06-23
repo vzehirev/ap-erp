@@ -35,7 +35,7 @@
                                 <input type="date" class="form-control" id="sorted_on" name="sorted_on"
                                     value="{{ old('sorted_on') }}">
                             </div>
-                            <div class="btn-group">
+                            <div class="btn-group m-3">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                     id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                                     aria-expanded="false">
@@ -107,19 +107,19 @@
                         <th scope="col">Сортиран от</th>
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
-                        <th scope="col">Сортирано количество</th>
+                        <th scope="col">Получено количество</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($sortedMaterials as $sortedMaterial)
                         <tr>
-                            <td>{{ $sortedMaterial->sorted_on }}</td>
-                            <td>{{ $sortedMaterial->workers->implode('name', ', ') }}</td>
-                            <td>{{ $sortedMaterial->from_material->name_and_code }}</td>
-                            <td>{{ $sortedMaterial->to_material->name_and_code }}</td>
-                            <td>{{ $sortedMaterial->quantity }}</td>
-                            <td>
+                            <td class="align-middle">{{ $sortedMaterial->sorted_on }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->workers->implode('name', ', ') }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->to_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->quantity }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-sorted-material/{{ $sortedMaterial->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

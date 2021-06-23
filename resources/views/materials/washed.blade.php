@@ -99,19 +99,19 @@
                         <th scope="col">Изпран от</th>
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
-                        <th scope="col">Изпрано количество</th>
+                        <th scope="col">Получено количество</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($washedMaterials as $washedMaterial)
                         <tr>
-                            <td>{{ $washedMaterial->washed_on }}</td>
-                            <td>{{ $washedMaterial->worker->name }}</td>
-                            <td>{{ $washedMaterial->from_material->name_and_code }}</td>
-                            <td>{{ $washedMaterial->to_material->name_and_code }}</td>
-                            <td>{{ $washedMaterial->quantity }}</td>
-                            <td>
+                            <td class="align-middle">{{ $washedMaterial->washed_on }}</td>
+                            <td class="align-middle">{{ $washedMaterial->worker->name }}</td>
+                            <td class="align-middle">{{ $washedMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $washedMaterial->to_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $washedMaterial->quantity }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-washed-material/{{ $washedMaterial->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

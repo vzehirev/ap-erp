@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал</label>
+                                <label for="from_material_id" class="form-label">От материал*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
                                     <option selected>Избери материал</option>
                                     @foreach ($materials as $material)
@@ -102,12 +102,12 @@
                 <tbody>
                     @foreach ($groundMaterials as $groundMaterial)
                         <tr>
-                            <td>{{ $groundMaterial->ground_on }}</td>
-                            <td>{{ $groundMaterial->worker->name }}</td>
-                            <td>{{ $groundMaterial->from_material->name_and_code }}</td>
-                            <td>{{ $groundMaterial->to_material->name_and_code }}</td>
-                            <td>{{ $groundMaterial->quantity }}</td>
-                            <td>
+                            <td class="align-middle">{{ $groundMaterial->ground_on }}</td>
+                            <td class="align-middle">{{ $groundMaterial->worker->name }}</td>
+                            <td class="align-middle">{{ $groundMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $groundMaterial->to_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $groundMaterial->quantity }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-ground-material/{{ $groundMaterial->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

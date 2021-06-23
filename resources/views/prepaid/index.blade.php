@@ -75,10 +75,10 @@
                 <tbody>
                     @foreach ($prepaid as $pp)
                         <tr>
-                            <td>{{ $pp->paid_on }}</td>
-                            <td>{{ $pp->worker->name }}</td>
-                            <td>{{ $pp->price }}</td>
-                            <td>
+                            <td class="align-middle">{{ $pp->paid_on }}</td>
+                            <td class="align-middle">{{ $pp->worker->name }}</td>
+                            <td class="align-middle">{{ $pp->price }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-prepaid/{{ $pp->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>

@@ -9,7 +9,6 @@ use App\Http\Requests\StoreGranularMaterialRequest;
 use App\Http\Requests\StoreGroundMaterialRequest;
 use App\Http\Requests\StoreSortedMaterialRequest;
 use App\Http\Requests\StoreWashedMaterialRequest;
-use App\Http\Requests\StoreWastedMaterialRequest;
 use App\Models\BoughtMaterial;
 use App\Models\GranularMaterial;
 use App\Models\GroundMaterial;
@@ -198,7 +197,7 @@ class MaterialsController extends Controller
 
     function deleteGranularMaterial(GranularMaterial $granular_material)
     {
-        $granular_material->from_material->increaseAvailableQuantity($granular_material->quantity_before);
+        $granular_material->from_material->increaseAvailableQuantity($granular_material->quantity + $granular_material->wasted_material->quantity);
         $granular_material->to_material->decreaseAvailableQuantity($granular_material->quantity);
 
         $granular_material->wasted_material->delete();

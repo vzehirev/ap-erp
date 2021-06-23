@@ -76,7 +76,7 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Гранулирано количество*</label>
+                                <label for="quantity" class="form-label">Количество получена гранула*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
@@ -100,19 +100,19 @@
                         <th scope="col">Гранулиран от</th>
                         <th scope="col">От материал</th>
                         <th scope="col">Получен материал</th>
-                        <th scope="col">Гранулирано количество</th>
+                        <th scope="col">Получено количество</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($granularMaterials as $granularMaterial)
                         <tr>
-                            <td>{{ $granularMaterial->granular_on }}</td>
-                            <td>{{ $granularMaterial->worker->name }}</td>
-                            <td>{{ $granularMaterial->from_material->name_and_code }}</td>
-                            <td>{{ $granularMaterial->to_material->name_and_code }}</td>
-                            <td>{{ $granularMaterial->quantity }}</td>
-                            <td>
+                            <td class="align-middle">{{ $granularMaterial->granular_on }}</td>
+                            <td class="align-middle">{{ $granularMaterial->worker->name }}</td>
+                            <td class="align-middle">{{ $granularMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $granularMaterial->to_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $granularMaterial->quantity }}</td>
+                            <td class="align-middle">
                                 <form action="/delete-granular-material/{{ $granularMaterial->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>
                                 </form>
