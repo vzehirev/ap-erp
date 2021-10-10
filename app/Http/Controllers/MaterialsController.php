@@ -173,7 +173,7 @@ class MaterialsController extends Controller
     {
         $materials = Material::orderBy('name', 'asc')->get();
         $workers = Worker::orderBy('name', 'asc')->get();
-        $granularMaterials = GranularMaterial::orderBy('granular_on', 'desc')->with('worker', 'from_material', 'to_material')->paginate(100);
+        $granularMaterials = GranularMaterial::orderBy('granular_on', 'desc')->with('worker', 'from_materials', 'to_material')->paginate(100);
 
         return view('materials.granular', ['workers' => $workers, 'materials' => $materials, 'granularMaterials' => $granularMaterials]);
     }
@@ -181,26 +181,35 @@ class MaterialsController extends Controller
     function storeGranularMaterial(StoreGranularMaterialRequest $request)
     {
         $model = GranularMaterial::create($request->validated());
-
-        $model->from_material->decreaseAvailableQuantity($request->quantity_before);
         $model->to_material->increaseAvailableQuantity($model->quantity);
 
-        WastedMaterial::create([
-            'wasted_on' => $request->granular_on,
-            'quantity' => $request->quantity_before - $request->quantity,
-            'granular_material_id' => $model->id,
-            'from_material_id' => $request->from_material_id,
-        ]);
+        $wastedQuantity = array_sum($request->quantity_before) - $request->quantity;
+
+        for ($i = 0; $i < count($request->from_materials); $i++) {
+            $model->from_materials()->attach($request->from_materials[$i], ['from_material_quantity' => $request->quantity_before[$i]]);
+            Material::find($request->from_materials[$i])->decreaseAvailableQuantity($request->quantity_before[$i]);
+
+            $ratio = array_sum($request->quantity_before) / $request->quantity_before[$i];
+            WastedMaterial::create([
+                'wasted_on' => $request->granular_on,
+                'quantity' => round($wastedQuantity / $ratio),
+                'granular_material_id' => $model->id,
+                'from_material_id' => $request->from_materials[$i],
+            ]);
+        }
 
         return back()->with('success', 'Успешно добавен гранулиран материал.');
     }
 
     function deleteGranularMaterial(GranularMaterial $granular_material)
     {
-        $granular_material->from_material->increaseAvailableQuantity($granular_material->quantity + $granular_material->wasted_material->quantity);
-        $granular_material->to_material->decreaseAvailableQuantity($granular_material->quantity);
+        foreach ($granular_material->from_materials as $fromMaterial) {
+            $fromMaterial->increaseAvailableQuantity($fromMaterial->pivot->from_material_quantity);
+        }
 
-        $granular_material->wasted_material->delete();
+        $granular_material->to_material->decreaseAvailableQuantity($granular_material->quantity);
+        $granular_material->from_materials()->detach();
+        $granular_material->wasted_materials()->delete();
         $granular_material->delete();
 
         return redirect()->back()->with('success', 'Успешно изтрит гранулиран материал.');

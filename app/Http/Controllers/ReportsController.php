@@ -13,7 +13,6 @@ class ReportsController extends Controller
         $data = $this->indexMaterialsReports($request);
         $data['from_date'] = $request->from_date;
         $data['to_date'] = $request->to_date;
-        //dd($data);
         return view('reports.index', $data);
     }
 
@@ -40,6 +39,7 @@ class ReportsController extends Controller
             } else if (str_contains($key, 'washedMaterials')) {
                 $queries[$key] = $this->setFromAndToDates($value, $request->from_date, $request->to_date, 'washed_materials', 'washed_on')->get();
             } else if (str_contains($key, 'granularMaterials')) {
+                //dd($queries[$key]->toSql());
                 $queries[$key] = $this->setFromAndToDates($value, $request->from_date, $request->to_date, 'granular_materials', 'granular_on')->get();
             } else if (str_contains($key, 'soldMaterials')) {
                 $queries[$key] = $this->setFromAndToDates($value, $request->from_date, $request->to_date, 'sold_materials', 'sold_on')->get();
@@ -118,17 +118,30 @@ class ReportsController extends Controller
                 ->groupBy('from_material_name', 'from_material_code', 'to_material_name', 'to_material_code')
                 ->orderBy('to_material_name', 'asc'),
 
+            // 'granularMaterials' => DB::table('granular_materials')
+            // ->join('materials as from_materials', 'granular_materials.from_material_id', '=', 'from_materials.id')
+            // ->join('materials as to_materials', 'granular_materials.to_material_id', '=', 'to_materials.id')
+            // ->select(
+            //     'from_materials.name as from_material_name',
+            //     'from_materials.code as from_material_code',
+            //     'to_materials.name as to_material_name',
+            //     'to_materials.code as to_material_code',
+            //     DB::raw('sum(granular_materials.quantity) as quantity'),
+            // )
+            // ->groupBy('from_material_name', 'from_material_code', 'to_material_name', 'to_material_code')
+            // ->orderBy('to_material_name', 'asc'),
+
             'granularMaterials' => DB::table('granular_materials')
-                ->join('materials as from_materials', 'granular_materials.from_material_id', '=', 'from_materials.id')
+                ->join('granular_material_from_material as from_materials_middle', 'granular_materials.id', '=', 'from_materials_middle.granular_material_id')
+                ->join('materials as from_materials', 'from_materials_middle.from_material_id', '=', 'from_materials.id')
                 ->join('materials as to_materials', 'granular_materials.to_material_id', '=', 'to_materials.id')
                 ->select(
-                    'from_materials.name as from_material_name',
-                    'from_materials.code as from_material_code',
+                    DB::raw('group_concat(distinct from_materials.name) as from_materials_concat'),
                     'to_materials.name as to_material_name',
                     'to_materials.code as to_material_code',
-                    DB::raw('sum(granular_materials.quantity) as quantity'),
+                    DB::raw('sum(distinct granular_materials.quantity) as quantity'),
                 )
-                ->groupBy('from_material_name', 'from_material_code', 'to_material_name', 'to_material_code')
+                ->groupBy('to_material_name', 'to_material_code')
                 ->orderBy('to_material_name', 'asc'),
 
             'soldMaterials' => DB::table('sold_materials')

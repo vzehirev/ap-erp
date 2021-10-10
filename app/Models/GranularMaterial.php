@@ -18,9 +18,9 @@ class GranularMaterial extends NoTimestampsModel
         return $this->belongsTo(Worker::class);
     }
 
-    function from_material()
+    function from_materials()
     {
-        return $this->belongsTo(Material::class);
+        return $this->belongsToMany(Material::class, 'granular_material_from_material', 'granular_material_id', 'from_material_id')->withPivot('from_material_quantity');
     }
 
     function to_material()
@@ -28,8 +28,8 @@ class GranularMaterial extends NoTimestampsModel
         return $this->belongsTo(Material::class);
     }
 
-    function wasted_material()
+    function wasted_materials()
     {
-        return $this->hasOne(WastedMaterial::class);
+        return $this->hasMany(WastedMaterial::class);
     }
 }

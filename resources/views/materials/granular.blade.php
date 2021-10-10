@@ -46,22 +46,30 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал*</label>
-                                <select class="form-select" id="from_material_id" name="from_material_id">
-                                    <option selected>Избери материал</option>
-                                    @foreach ($materials as $material)
-                                        <option value="{{ $material->id }}"
-                                            {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
-                                            {{ $material->name_and_code }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="my-3 d-flex flex-row justify-content-between from-material">
+                                <div>
+                                    <label for="from_material_id" class="form-label">От материал*</label>
+                                    <select class="form-select" id="from_material_id" name="from_materials[]">
+                                        <option selected>Избери материал</option>
+                                        @foreach ($materials as $material)
+                                            <option value="{{ $material->id }}"
+                                                {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
+                                                {{ $material->name_and_code }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="quantity_before" class="form-label">Количество изпран материал*</label>
+                                    <input type="text" class="form-control" id="quantity_before" name="quantity_before[]"
+                                        value="{{ old('quantity_before') }}">
+                                </div>
+                                <button type="button"
+                                    class="btn btn-sm btn-outline-danger align-self-end mb-1 remove-additional-from-material">X</button>
                             </div>
-                            <div class="m-3">
-                                <label for="quantity_before" class="form-label">Количество изпран материал*</label>
-                                <input type="text" class="form-control" id="quantity_before" name="quantity_before"
-                                    value="{{ old('quantity_before') }}">
+                            <div>
+                                <button id="add-additional-from-material" type="button"
+                                    class="btn btn-outline-primary btn-sm">+</button>
                             </div>
                             <div class="m-3">
                                 <label for="to_material_id" class="form-label">Получен материал*</label>
@@ -109,7 +117,7 @@
                         <tr>
                             <td class="align-middle">{{ $granularMaterial->granular_on }}</td>
                             <td class="align-middle">{{ $granularMaterial->worker->name }}</td>
-                            <td class="align-middle">{{ $granularMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $granularMaterial->from_materials->implode('name_and_code', ', ') }}</td>
                             <td class="align-middle">{{ $granularMaterial->to_material->name_and_code }}</td>
                             <td class="align-middle">{{ $granularMaterial->quantity }}</td>
                             <td class="align-middle">
@@ -129,4 +137,18 @@
 
     <x-open_modal_on_error :viewErrorBag="$errors" />
 
+    <script>
+        $("#add-additional-from-material").click(() => {
+            let lastFromMaterialEl = $(".from-material").last();
+            $(lastFromMaterialEl).after($(lastFromMaterialEl.clone()));
+            $(".from-material").last().click(removeParentEl);
+        });
+
+        function removeParentEl(el) {
+            let target = $(el.target);
+            if (target.hasClass("remove-additional-from-material")) {
+                target.parent().remove();
+            }
+        };
+    </script>
 @endsection

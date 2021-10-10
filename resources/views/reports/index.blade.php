@@ -38,7 +38,8 @@
                             <p class="mx-3 my-0">Общо количество:
                                 <strong>{{ $boughtMaterialsTotal[0]->quantity ?? 0 }}</strong>
                             </p>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
+                            <p class="mx-3 my-0">Обща цена:
+                                <strong>{{ $boughtMaterialsTotal[0]->price ?? 0 }}</strong>
                             </p>
                             <p class="mx-3 my-0">Средна цена:
                                 <strong>{{ round($boughtMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
@@ -264,8 +265,7 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">От материал</th>
-                                        <th scope="col">Код (от)</th>
+                                        <th scope="col">От материал/и</th>
                                         <th scope="col">Получен материал</th>
                                         <th scope="col">Код (получен)</th>
                                         <th scope="col">Получено количество</th>
@@ -274,8 +274,7 @@
                                 <tbody>
                                     @foreach ($granularMaterials as $granularMaterial)
                                         <tr>
-                                            <td class="align-middle">{{ $granularMaterial->from_material_name }}</td>
-                                            <td class="align-middle">{{ $granularMaterial->from_material_code }}</td>
+                                            <td class="align-middle">{{ $granularMaterial->from_materials_concat }}</td>
                                             <td class="align-middle">{{ $granularMaterial->to_material_name }}</td>
                                             <td class="align-middle">{{ $granularMaterial->to_material_code }}</td>
                                             <td class="align-middle">{{ $granularMaterial->quantity }}</td>
@@ -299,7 +298,8 @@
                             <p class="mx-3 my-0">Общо количество:
                                 <strong>{{ $soldMaterialsTotal[0]->quantity ?? 0 }}</strong>
                             </p>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
+                            <p class="mx-3 my-0">Обща цена:
+                                <strong>{{ $soldMaterialsTotal[0]->price ?? 0 }}</strong>
                             </p>
                             <p class="mx-3 my-0">Средна цена:
                                 <strong>{{ round($soldMaterialsTotal[0]->avg_price, 2) ?? 0 }}</strong>
@@ -345,7 +345,8 @@
                         aria-controls="flush-collapseEight">
                         <div class="mb-3 text-decoration-underline">Разходи</div>
                         <div>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $expensesTotal[0]->price ?? 0 }}</strong> </p>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $expensesTotal[0]->price ?? 0 }}</strong>
+                            </p>
                         </div>
                     </button>
                 </h5>
@@ -381,7 +382,8 @@
                         aria-controls="flush-collapseNine">
                         <div class="mb-3 text-decoration-underline">Заплати</div>
                         <div>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $salariesTotal[0]->price ?? 0 }}</strong> </p>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $salariesTotal[0]->price ?? 0 }}</strong>
+                            </p>
                         </div>
                     </button>
                 </h5>
@@ -417,7 +419,8 @@
                         aria-controls="flush-collapseTen">
                         <div class="mb-3 text-decoration-underline">Предплатени</div>
                         <div>
-                            <p class="mx-3 my-0">Обща цена: <strong>{{ $prepaidTotal[0]->price ?? 0 }}</strong> </p>
+                            <p class="mx-3 my-0">Обща цена: <strong>{{ $prepaidTotal[0]->price ?? 0 }}</strong>
+                            </p>
                         </div>
                     </button>
                 </h5>
