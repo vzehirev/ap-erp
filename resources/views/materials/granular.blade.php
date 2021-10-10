@@ -59,8 +59,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div>
-                                    <label for="quantity_before" class="form-label">Количество изпран материал*</label>
+                                <div class="mx-1 w-50">
+                                    <label style="width: max-content;" for="quantity_before" class="form-label">Количество изпран материал*</label>
                                     <input type="text" class="form-control" id="quantity_before" name="quantity_before[]"
                                         value="{{ old('quantity_before') }}">
                                 </div>
