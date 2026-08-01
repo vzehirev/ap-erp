@@ -90,10 +90,10 @@ Four independent layers, in order:
    that held `/login` and `/register`.
 4. **A read-only database.** Every connection the web process opens runs
    `PRAGMA query_only = 1`, and both the file and its directory are owned by
-   root and unwritable while the server runs as an unprivileged account.
-   Verified: reads and the reports' aggregate SQL are unaffected; INSERT,
-   UPDATE, DELETE and CREATE TABLE all fail with *attempt to write a readonly
-   database*.
+   root and unwritable while every process that executes application code runs
+   as `demo`. Verified: reads and the reports' aggregate SQL are unaffected;
+   INSERT, UPDATE, DELETE and CREATE TABLE all fail with *attempt to write a
+   readonly database*.
 
    The directory matters as much as the file. SQLite writes its rollback
    journal alongside the database, so a writable database file inside a
@@ -101,6 +101,13 @@ Four independent layers, in order:
    read-only file — which is a confusing way to discover the difference. The
    entrypoint therefore hands the directory to the seeding account first and
    locks both down together afterwards.
+
+   nginx and php-fpm keep their **master** process as root and run their
+   **workers** as `demo`, which is how the official images for both are built.
+   The fully-unprivileged arrangement this started as does not survive contact
+   with Docker: the container's stderr is a root-owned pipe, a non-root process
+   cannot reopen it, and nginx refuses to start when it cannot open its error
+   log. Nothing that handles a request runs as root.
 
 `public/js/demo.js` disables the controls on write forms and says why. That one
 is a courtesy, not a control — turning it off changes nothing but the tooltips.
