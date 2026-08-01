@@ -1,0 +1,92 @@
+/* Demo chrome only. The application's own styling is Bootstrap and nothing else
+   - resources/css/app.css compiled to two bytes on master. */
+
+.demo-banner {
+    background: #0f766e;
+    color: #f0fdfa;
+    font-size: .9rem;
+    line-height: 1.45;
+    padding: .6rem 1rem;
+    text-align: center;
+}
+
+.demo-banner strong {
+    color: #fff;
+}
+
+.demo-banner a {
+    color: #99f6e4;
+}
+
+.demo-lang {
+    display: inline-flex;
+    gap: .35rem;
+    align-items: center;
+    margin-left: .75rem;
+    white-space: nowrap;
+}
+
+.demo-lang a,
+.demo-lang span {
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-radius: .2rem;
+    color: #f0fdfa;
+    font-size: .78rem;
+    line-height: 1;
+    padding: .2rem .4rem;
+    text-decoration: none;
+}
+
+.demo-lang span[aria-current] {
+    background: #f0fdfa;
+    border-color: #f0fdfa;
+    color: #0f766e;
+    font-weight: 600;
+}
+
+.demo-form-note {
+    color: #9a3412;
+    font-size: .85rem;
+    margin: 0 1rem 1rem;
+}
+
+/* The landing and privacy pages, which are the demo's own. */
+.demo-intro {
+    margin: 2rem auto 4rem;
+    max-width: 46rem;
+    padding: 0 1rem;
+}
+
+.demo-intro__lead {
+    color: #334155;
+    font-size: 1.05rem;
+}
+
+.demo-intro__list li {
+    margin-bottom: .55rem;
+}
+
+.demo-footer {
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+    font-size: .85rem;
+    margin-top: 3rem;
+    padding: 1.25rem 1rem;
+    text-align: center;
+}
+
+.demo-footer a {
+    color: #0f766e;
+}
+
+/* Nine of the tables are wider than a phone. Scrolling the table rather than
+   the page keeps the navbar and the banner where they belong. Bootstrap's own
+   .table-responsive covers most of them; this catches the two that are laid
+   out by hand. */
+@media (max-width: 991.98px) {
+    .demo-scroll-x {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+}

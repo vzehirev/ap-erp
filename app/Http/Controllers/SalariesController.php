@@ -2,31 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSalaryRequest;
 use App\Models\Salary;
 use App\Models\Worker;
 
 class SalariesController extends Controller
 {
-    function index()
+    public function index()
     {
-        $workers = Worker::orderBy('name', 'asc')->paginate(100);
-        $salaries = Salary::orderBy('date', 'desc')->paginate(100);
-
-        return view('salaries.index', ['salaries' => $salaries, 'workers' => $workers]);
-    }
-
-    function store(StoreSalaryRequest $request)
-    {
-        Salary::create($request->validated());
-
-        return back()->with('success', 'Успешно добавена заплата.');
-    }
-
-    function delete(Salary $salary)
-    {
-        $salary->delete();
-
-        return back()->with('success', 'Успешно изтрита заплата.');
+        return view('salaries.index', [
+            // The original paginated the workers as well, on the same ?page=
+            // parameter as the salaries table, so the dropdown emptied itself
+            // as soon as you moved to page 2. They are a form dropdown, not a
+            // table - there is nothing to paginate.
+            'workers' => Worker::orderBy('name')->get(),
+            'salaries' => Salary::orderBy('date', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('worker')
+                ->paginate(100),
+        ]);
     }
 }

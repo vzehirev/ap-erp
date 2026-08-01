@@ -9,14 +9,15 @@
     {{-- Buy material form --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storePrepaid">
-            Добави предплата +
+            {{ __('app.add.prepaid') }} +
         </button>
         <div class="modal fade" id="storePrepaid" tabindex="-1" aria-labelledby="storePrepaidLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storePrepaidLabel">Добави предплата</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storePrepaidLabel">{{ __('app.add.prepaid') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,14 +32,14 @@
                         <form class="d-flex text-center flex-column" action="/prepaid" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="paid_on" class="form-label">Дата*</label>
+                                <label for="paid_on" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="paid_on" name="paid_on"
                                     value="{{ old('paid_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Служител*</label>
+                                <label for="worker_id" class="form-label">{{ __('app.fields.worker') }}*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
-                                    <option selected>Избери служител</option>
+                                    <option selected>{{ __('app.choose.worker') }}</option>
                                     @foreach ($workers as $worker)
                                         <option value="{{ $worker->id }}"
                                             {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
@@ -47,14 +48,14 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Сума*</label>
+                                <label for="price" class="form-label">{{ __('app.fields.amount') }}*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -66,9 +67,9 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Служител</th>
-                        <th scope="col">Сума</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.worker') }}</th>
+                        <th scope="col">{{ __('app.fields.amount') }}</th>
                         <th></th>
                     </tr>
                 </thead>

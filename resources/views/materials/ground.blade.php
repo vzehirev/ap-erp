@@ -9,14 +9,15 @@
     {{-- Store sorted material --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeGroundMaterial">
-            Добави смлян материал +
+            {{ __('app.add.ground') }} +
         </button>
         <div class="modal fade" id="storeGroundMaterial" tabindex="-1" aria-labelledby="storeGroundMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storeGroundMaterialLabel">Добави смлян материал</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storeGroundMaterialLabel">{{ __('app.add.ground') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,14 +32,14 @@
                         <form class="d-flex text-center flex-column" action="/ground-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="ground_on" class="form-label">Дата*</label>
+                                <label for="ground_on" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="ground_on" name="ground_on"
                                     value="{{ old('ground_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Смлян от*</label>
+                                <label for="worker_id" class="form-label">{{ __('app.fields.ground_by') }}*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
-                                    <option selected>Избери служител</option>
+                                    <option selected>{{ __('app.choose.worker') }}</option>
                                     @foreach ($workers as $worker)
                                         <option value="{{ $worker->id }}"
                                             {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
@@ -47,9 +48,9 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал*</label>
+                                <label for="from_material_id" class="form-label">{{ __('app.fields.from_material') }}*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
@@ -59,9 +60,9 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал*</label>
+                                <label for="to_material_id" class="form-label">{{ __('app.fields.to_material') }}*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
@@ -71,14 +72,14 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Смляно количество*</label>
+                                <label for="quantity" class="form-label">{{ __('app.fields.ground_quantity') }}*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -91,11 +92,11 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Смлян от</th>
-                        <th scope="col">От материал</th>
-                        <th scope="col">Получен материал</th>
-                        <th scope="col">Смляно количество</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.ground_by') }}</th>
+                        <th scope="col">{{ __('app.fields.from_material') }}</th>
+                        <th scope="col">{{ __('app.fields.to_material') }}</th>
+                        <th scope="col">{{ __('app.fields.ground_quantity') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -104,7 +105,7 @@
                         <tr>
                             <td class="align-middle">{{ $groundMaterial->ground_on }}</td>
                             <td class="align-middle">{{ $groundMaterial->worker->name }}</td>
-                            <td class="align-middle">{{ $groundMaterial->from_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $groundMaterial->from_material?->name_and_code }}</td>
                             <td class="align-middle">{{ $groundMaterial->to_material->name_and_code }}</td>
                             <td class="align-middle">{{ $groundMaterial->quantity }}</td>
                             <td class="align-middle">

@@ -1,97 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ env('APP_NAME') }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="{{ mix('/js/app.js') }}"></script>
+    <meta name="robots" content="noindex, nofollow">
+
+    {{-- config(), not env(). Once config is cached - which is what the
+         container does at build time - env() returns null outside the config
+         files, and the original's `{{ env('APP_NAME') }}` left every page with
+         an empty <title>. --}}
+    <title>{{ config('app.name') }}</title>
+
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+
+    {{-- Served from this domain rather than a CDN, so the demo makes no
+         third-party requests at all. jQuery is gone: the original loaded 90 KB
+         of it for one form control. --}}
+    <link href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/demo.css') }}" rel="stylesheet">
 </head>
 
 <body class="mb-5">
-    @auth
-        <nav class="navbar navbar-expand-xxl navbar-dark bg-dark">
-            <div class="container-fluid">
 
-                <a href="/"><img src="{{ asset('/favicon.ico') }}"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarToggler">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+    <div class="demo-banner">
+        {{ __('demo.banner') }}
+        <span class="demo-lang">
+            @foreach (['bg' => 'BG', 'en' => 'EN'] as $locale => $label)
+                @if (app()->getLocale() === $locale)
+                    <span aria-current="true">{{ $label }}</span>
+                @else
+                    <a href="{{ dswitch($locale) }}" hreflang="{{ $locale }}">{{ $label }}</a>
+                @endif
+            @endforeach
+        </span>
+    </div>
+
+    @php
+        $links = [
+            'bought-materials' => 'app.nav.bought',
+            'sorted-materials' => 'app.nav.sorted',
+            'ground-materials' => 'app.nav.ground',
+            'washed-materials' => 'app.nav.washed',
+            'granular-materials' => 'app.nav.granular',
+            'sold-materials' => 'app.nav.sold',
+            'expenses' => 'app.nav.expenses',
+            'salaries' => 'app.nav.salaries',
+            'prepaid' => 'app.nav.prepaid',
+            'available-materials' => 'app.nav.stock',
+            'reports' => 'app.nav.reports',
+            'others' => 'app.nav.reference',
+        ];
+    @endphp
+
+    <nav class="navbar navbar-expand-xxl navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="{{ durl('/') }}">
+                <img src="{{ asset('img/logo.svg') }}" width="34" height="34" alt="{{ config('app.name') }}">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                    @foreach ($links as $path => $label)
                         <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'bought-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/bought-materials">Закупен материал</a>
+                            <a class="nav-link text-center {{ Request::path() === $path ? 'text-decoration-underline active' : '' }}"
+                                @if (Request::path() === $path) aria-current="page" @endif
+                                href="{{ durl('/' . $path) }}">{{ __($label) }}</a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'wasted-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/wasted-materials">Брак</a>
-                        </li> --}}
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'sorted-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/sorted-materials">Сортиран материал</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'ground-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/ground-materials">Смлян материал</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'washed-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/washed-materials">Изпран материал</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'granular-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/granular-materials">Гранулиран материал</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'sold-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/sold-materials">Продаден материал</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'expenses' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/expenses">Разходи</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'salaries' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/salaries">Заплати</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'prepaid' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/prepaid">Предплатени</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'available-materials' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/available-materials">Налични материали</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'reports' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/reports">Отчети</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-center {{ Request::path() == 'others' ? 'text-decoration-underline active' : '' }}"
-                                aria-current="page" href="/others">Други</a>
-                        </li>
-                        <form class="nav-item" action="/logout" method="post">
-                            @csrf
-                            <button class="nav-link border-0 bg-transparent text-center mx-auto"
-                                type="submit">ИЗХОД</button>
-                        </form>
-                    </ul>
-                </div>
+                    @endforeach
+                </ul>
             </div>
-        </nav>
-    @endauth
+        </div>
+    </nav>
 
     @yield('content')
+
+    <footer class="demo-footer">
+        <a href="{{ durl('/') }}">{{ __('demo.about_link') }}</a>
+        &middot;
+        <a href="{{ durl('/privacy') }}">{{ __('demo.privacy_link') }}</a>
+        &middot;
+        {{ __('demo.built_by') }} <a href="https://wzco.net" rel="noopener">wzco.net</a>
+    </footer>
+
+    <script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}" defer></script>
+    <script src="{{ asset('js/demo.js') }}" defer></script>
 </body>
 
 </html>

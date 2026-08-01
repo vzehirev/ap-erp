@@ -2,243 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSoldMaterialRequest;
-use App\Http\Requests\StoreBoughtMaterialRequest;
-use App\Http\Requests\StoreGranularMaterialRequest;
-use App\Http\Requests\StoreGroundMaterialRequest;
-use App\Http\Requests\StoreSortedMaterialRequest;
-use App\Http\Requests\StoreWashedMaterialRequest;
 use App\Models\BoughtMaterial;
 use App\Models\GranularMaterial;
 use App\Models\GroundMaterial;
-use App\Models\Partner;
 use App\Models\Material;
+use App\Models\Partner;
 use App\Models\SoldMaterial;
 use App\Models\SortedMaterial;
 use App\Models\WashedMaterial;
-use App\Models\WastedMaterial;
 use App\Models\Worker;
 
+/**
+ * The six movement ledgers. In the original each of these had a matching
+ * store* and delete* action; they are gone on this branch, along with their
+ * routes and form requests. The add-material and delete forms still render,
+ * because they are part of what the demo is showing - they simply have nothing
+ * behind them.
+ */
 class MaterialsController extends Controller
 {
-    function indexBoughtMaterials()
+    public function indexBoughtMaterials()
     {
-        $partners = Partner::orderBy('name', 'asc')->get();
-        $materials = Material::orderBy('name', 'asc')->get();
-        $boughtMaterials = BoughtMaterial::orderBy('bought_on', 'desc')->with('material', 'partner')->paginate(100);
-
-        return view('materials.bought', ['partners' => $partners, 'materials' => $materials, 'boughtMaterials' => $boughtMaterials]);
-    }
-
-    function storeBoughtMaterial(StoreBoughtMaterialRequest $request)
-    {
-        $model = BoughtMaterial::create($request->validated());
-        $model->material->increaseAvailableQuantity($model->quantity);
-
-        return redirect()->back()->with('success', 'Успешно добавен закупен материал.');
-    }
-
-    function deleteBoughtMaterial(BoughtMaterial $bought_material)
-    {
-        $bought_material->material->decreaseAvailableQuantity($bought_material->quantity);
-        $bought_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит закупен материал.');
-    }
-
-    // function indexWastedMaterials()
-    // {
-    //     $materials = Material::orderBy('name', 'asc')->get();
-    //     $workers = Worker::orderBy('name', 'asc')->get();
-    //     $wastedMaterials = WastedMaterial::orderBy('wasted_on', 'desc')->with('from_material', 'worker')->paginate(100);
-
-    //     return view('materials.wasted', ['materials' => $materials, 'workers' => $workers, 'wastedMaterials' => $wastedMaterials]);
-    // }
-
-    // function storeWastedMaterial(StoreWastedMaterialRequest $request)
-    // {
-    //     $model = WastedMaterial::create($request->validated());
-    //     $model->workers()->attach($request->workers);
-
-    //     return redirect()->back()->with('success', 'Успешно добавен бракуван материал.');
-    // }
-
-    function indexSortedMaterials()
-    {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $partners = Partner::orderBy('name', 'asc')->get();
-        $workers = Worker::orderBy('name', 'asc')->get();
-        $sortedMaterials = SortedMaterial::orderBy('sorted_on', 'desc')->with('workers', 'from_material', 'to_material')->paginate(100);
-
-        return view('materials.sorted', ['materials' => $materials, 'partners' => $partners, 'workers' => $workers, 'sortedMaterials' => $sortedMaterials]);
-    }
-
-    function storeSortedMaterial(StoreSortedMaterialRequest $request)
-    {
-        $model = SortedMaterial::create($request->validated());
-        $model->workers()->attach($request->workers);
-
-        $model->from_material->decreaseAvailableQuantity($request->wasted_quantity + $request->quantity);
-        $model->to_material->increaseAvailableQuantity($model->quantity);
-
-        WastedMaterial::create([
-            'wasted_on' => $request->sorted_on,
-            'quantity' => $request->wasted_quantity,
-            'sorted_material_id' => $model->id,
-            'from_material_id' => $request->from_material_id,
+        return view('materials.bought', [
+            'partners' => Partner::orderBy('name')->get(),
+            'materials' => Material::orderBy('name')->get(),
+            'boughtMaterials' => BoughtMaterial::orderBy('bought_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('material', 'partner')
+                ->paginate(100),
         ]);
-
-        return back()->with('success', 'Успешно добавен сортиран материал.');
     }
 
-    function deleteSortedMaterial(SortedMaterial $sorted_material)
+    public function indexSortedMaterials()
     {
-        $sorted_material->from_material->increaseAvailableQuantity($sorted_material->wasted_material->quantity + $sorted_material->quantity);
-        $sorted_material->to_material->decreaseAvailableQuantity($sorted_material->quantity);
-        $sorted_material->wasted_material->delete();
-        $sorted_material->workers()->detach();
-        $sorted_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит сортиран материал.');
-    }
-
-    function indexGroundMaterials()
-    {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $workers = Worker::orderBy('name', 'asc')->get();
-        $groundMaterials = GroundMaterial::orderBy('ground_on', 'desc')->with('worker', 'from_material', 'to_material')->paginate(100);
-
-        return view('materials.ground', ['workers' => $workers, 'materials' => $materials, 'groundMaterials' => $groundMaterials]);
-    }
-
-    function storeGroundMaterial(StoreGroundMaterialRequest $request)
-    {
-        $model = GroundMaterial::create($request->validated());
-
-        $model->from_material->decreaseAvailableQuantity($model->quantity);
-        $model->to_material->increaseAvailableQuantity($model->quantity);
-
-        return back()->with('success', 'Успешно добавен смлян материал.');
-    }
-
-    function deleteGroundMaterial(GroundMaterial $ground_material)
-    {
-        $ground_material->from_material->increaseAvailableQuantity($ground_material->quantity);
-        $ground_material->to_material->decreaseAvailableQuantity($ground_material->quantity);
-
-        $ground_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит смлян материал.');
-    }
-
-    function indexWashedMaterials()
-    {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $workers = Worker::orderBy('name', 'asc')->get();
-        $washedMaterials = WashedMaterial::orderBy('washed_on', 'desc')->with('worker', 'from_material', 'to_material')->paginate(100);
-
-        return view('materials.washed', ['workers' => $workers, 'materials' => $materials, 'washedMaterials' => $washedMaterials]);
-    }
-
-    function storeWashedMaterial(StoreWashedMaterialRequest $request)
-    {
-        $model = WashedMaterial::create($request->validated());
-
-        $model->from_material->decreaseAvailableQuantity($request->quantity_before);
-        $model->to_material->increaseAvailableQuantity($model->quantity);
-
-        WastedMaterial::create([
-            'wasted_on' => $request->washed_on,
-            'quantity' => $request->quantity_before - $request->quantity,
-            'washed_material_id' => $model->id,
-            'from_material_id' => $request->from_material_id,
+        return view('materials.sorted', [
+            'materials' => Material::orderBy('name')->get(),
+            'partners' => Partner::orderBy('name')->get(),
+            'workers' => Worker::orderBy('name')->get(),
+            'sortedMaterials' => SortedMaterial::orderBy('sorted_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('workers', 'from_material', 'to_material')
+                ->paginate(100),
         ]);
-
-        return back()->with('success', 'Успешно добавен изпран материал.');
     }
 
-    function deleteWashedMaterial(WashedMaterial $washed_material)
+    public function indexGroundMaterials()
     {
-        $washed_material->from_material->increaseAvailableQuantity($washed_material->quantity_before);
-        $washed_material->to_material->decreaseAvailableQuantity($washed_material->quantity);
-
-        $washed_material->wasted_material->delete();
-        $washed_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит изпран материал.');
+        return view('materials.ground', [
+            'workers' => Worker::orderBy('name')->get(),
+            'materials' => Material::orderBy('name')->get(),
+            'groundMaterials' => GroundMaterial::orderBy('ground_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('worker', 'from_material', 'to_material')
+                ->paginate(100),
+        ]);
     }
 
-    function indexGranularMaterials()
+    public function indexWashedMaterials()
     {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $workers = Worker::orderBy('name', 'asc')->get();
-        $granularMaterials = GranularMaterial::orderBy('granular_on', 'desc')->with('worker', 'from_materials', 'to_material')->paginate(100);
-
-        return view('materials.granular', ['workers' => $workers, 'materials' => $materials, 'granularMaterials' => $granularMaterials]);
+        return view('materials.washed', [
+            'workers' => Worker::orderBy('name')->get(),
+            'materials' => Material::orderBy('name')->get(),
+            'washedMaterials' => WashedMaterial::orderBy('washed_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('worker', 'from_material', 'to_material')
+                ->paginate(100),
+        ]);
     }
 
-    function storeGranularMaterial(StoreGranularMaterialRequest $request)
+    public function indexGranularMaterials()
     {
-        $model = GranularMaterial::create($request->validated());
-        $model->to_material->increaseAvailableQuantity($model->quantity);
-
-        $wastedQuantity = array_sum($request->quantity_before) - $request->quantity;
-
-        for ($i = 0; $i < count($request->from_materials); $i++) {
-            $model->from_materials()->attach($request->from_materials[$i], ['from_material_quantity' => $request->quantity_before[$i]]);
-            Material::find($request->from_materials[$i])->decreaseAvailableQuantity($request->quantity_before[$i]);
-
-            $ratio = array_sum($request->quantity_before) / $request->quantity_before[$i];
-            WastedMaterial::create([
-                'wasted_on' => $request->granular_on,
-                'quantity' => round($wastedQuantity / $ratio),
-                'granular_material_id' => $model->id,
-                'from_material_id' => $request->from_materials[$i],
-            ]);
-        }
-
-        return back()->with('success', 'Успешно добавен гранулиран материал.');
+        return view('materials.granular', [
+            'workers' => Worker::orderBy('name')->get(),
+            'materials' => Material::orderBy('name')->get(),
+            'granularMaterials' => GranularMaterial::orderBy('granular_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('worker', 'from_materials', 'to_material')
+                ->paginate(100),
+        ]);
     }
 
-    function deleteGranularMaterial(GranularMaterial $granular_material)
+    public function indexSoldMaterials()
     {
-        foreach ($granular_material->from_materials as $fromMaterial) {
-            $fromMaterial->increaseAvailableQuantity($fromMaterial->pivot->from_material_quantity);
-        }
-
-        $granular_material->to_material->decreaseAvailableQuantity($granular_material->quantity);
-        $granular_material->from_materials()->detach();
-        $granular_material->wasted_materials()->delete();
-        $granular_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит гранулиран материал.');
-    }
-
-    function indexSoldMaterials()
-    {
-        $materials = Material::orderBy('name', 'asc')->get();
-        $partners = Partner::orderBy('name', 'asc')->get();
-        $soldMaterials = SoldMaterial::orderBy('sold_on', 'desc')->with('partner', 'material')->paginate(100);
-
-        return view('materials.sold', ['partners' => $partners, 'materials' => $materials, 'soldMaterials' => $soldMaterials]);
-    }
-
-    function storeSoldMaterial(StoreSoldMaterialRequest $request)
-    {
-        $model = SoldMaterial::create($request->validated());
-
-        $model->material->decreaseAvailableQuantity($model->quantity);
-
-        return back()->with('success', 'Успешно добавен продаден материал.');
-    }
-
-    function deleteSoldMaterial(SoldMaterial $sold_material)
-    {
-        $sold_material->material->increaseAvailableQuantity($sold_material->quantity);
-
-        $sold_material->delete();
-
-        return redirect()->back()->with('success', 'Успешно изтрит продаден материал.');
+        return view('materials.sold', [
+            'materials' => Material::orderBy('name')->get(),
+            'partners' => Partner::orderBy('name')->get(),
+            'soldMaterials' => SoldMaterial::orderBy('sold_on', 'desc')
+                ->orderBy('id', 'desc')
+                ->with('partner', 'material')
+                ->paginate(100),
+        ]);
     }
 }

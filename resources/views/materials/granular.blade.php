@@ -9,14 +9,15 @@
     {{-- Store sorted material --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeGranularMaterial">
-            Добави гранулиран материал +
+            {{ __('app.add.granular') }} +
         </button>
         <div class="modal fade" id="storeGranularMaterial" tabindex="-1" aria-labelledby="storeGranularMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storeGranularMaterialLabel">Добави гранулиран материал</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storeGranularMaterialLabel">{{ __('app.add.granular') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,14 +32,14 @@
                         <form class="d-flex text-center flex-column" action="/granular-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="granular_on" class="form-label">Дата*</label>
+                                <label for="granular_on" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="granular_on" name="granular_on"
                                     value="{{ old('granular_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Гранулиран от*</label>
+                                <label for="worker_id" class="form-label">{{ __('app.fields.granulated_by') }}*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
-                                    <option selected>Избери служител</option>
+                                    <option selected>{{ __('app.choose.worker') }}</option>
                                     @foreach ($workers as $worker)
                                         <option value="{{ $worker->id }}"
                                             {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
@@ -48,9 +49,9 @@
                             </div>
                             <div class="my-3 d-flex flex-row justify-content-between from-material">
                                 <div>
-                                    <label for="from_material_id" class="form-label">От материал*</label>
+                                    <label for="from_material_id" class="form-label">{{ __('app.fields.from_material') }}*</label>
                                     <select class="form-select" id="from_material_id" name="from_materials[]">
-                                        <option selected>Избери материал</option>
+                                        <option selected>{{ __('app.choose.material') }}</option>
                                         @foreach ($materials as $material)
                                             <option value="{{ $material->id }}"
                                                 {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
@@ -60,7 +61,7 @@
                                     </select>
                                 </div>
                                 <div class="mx-1 w-50">
-                                    <label style="width: max-content;" for="quantity_before" class="form-label">Количество изпран материал*</label>
+                                    <label style="width: max-content;" for="quantity_before" class="form-label">{{ __('app.fields.washed_material_quantity') }}*</label>
                                     <input type="text" class="form-control" id="quantity_before" name="quantity_before[]"
                                         value="{{ old('quantity_before') }}">
                                 </div>
@@ -72,9 +73,9 @@
                                     class="btn btn-outline-primary btn-sm">+</button>
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал*</label>
+                                <label for="to_material_id" class="form-label">{{ __('app.fields.to_material') }}*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
@@ -84,14 +85,14 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Количество получена гранула*</label>
+                                <label for="quantity" class="form-label">{{ __('app.fields.granulate_quantity') }}*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -104,11 +105,11 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Гранулиран от</th>
-                        <th scope="col">От материал</th>
-                        <th scope="col">Получен материал</th>
-                        <th scope="col">Получено количество</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.granulated_by') }}</th>
+                        <th scope="col">{{ __('app.fields.from_material') }}</th>
+                        <th scope="col">{{ __('app.fields.to_material') }}</th>
+                        <th scope="col">{{ __('app.fields.quantity_received') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -138,16 +139,18 @@
     <x-open_modal_on_error :viewErrorBag="$errors" />
 
     <script>
-        $("#add-additional-from-material").click(() => {
-            let lastFromMaterialEl = $(".from-material").last();
-            $(lastFromMaterialEl).after($(lastFromMaterialEl.clone()));
-            $(".from-material").last().click(removeParentEl);
+        document.getElementById("add-additional-from-material").addEventListener("click", () => {
+            let fromMaterialEls = document.querySelectorAll(".from-material");
+            let lastFromMaterialEl = fromMaterialEls[fromMaterialEls.length - 1];
+            lastFromMaterialEl.after(lastFromMaterialEl.cloneNode(true));
+            let updatedFromMaterialEls = document.querySelectorAll(".from-material");
+            updatedFromMaterialEls[updatedFromMaterialEls.length - 1].addEventListener("click", removeParentEl);
         });
 
         function removeParentEl(el) {
-            let target = $(el.target);
-            if (target.hasClass("remove-additional-from-material")) {
-                target.parent().remove();
+            let target = el.target;
+            if (target.classList.contains("remove-additional-from-material")) {
+                target.parentNode.remove();
             }
         };
     </script>

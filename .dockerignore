@@ -1,0 +1,16 @@
+.git
+.gitattributes
+.gitignore
+.editorconfig
+.env
+.env.*
+vendor
+node_modules
+database/*.sqlite
+database/*.sqlite-*
+storage/logs/*.log
+storage/framework/views/*.php
+storage/framework/cache/data/*
+storage/framework/sessions/*
+bootstrap/cache/*.php
+README-DEMO.md

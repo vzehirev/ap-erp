@@ -9,14 +9,15 @@
     {{-- Store sorted material --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeSortedMaterial">
-            Добави сортиран материал +
+            {{ __('app.add.sorted') }} +
         </button>
         <div class="modal fade" id="storeSortedMaterial" tabindex="-1" aria-labelledby="storeSortedMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storeSortedMaterialLabel">Добави сортиран материал</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storeSortedMaterialLabel">{{ __('app.add.sorted') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,7 +32,7 @@
                         <form class="d-flex text-center flex-column" action="/sorted-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="sorted_on" class="form-label">Дата*</label>
+                                <label for="sorted_on" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="sorted_on" name="sorted_on"
                                     value="{{ old('sorted_on') }}">
                             </div>
@@ -39,7 +40,7 @@
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                     id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                                     aria-expanded="false">
-                                    Избери служител/и*
+                                    {{ __('app.choose.workers') }}*
                                 </button>
                                 <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuClickableInside">
                                     @foreach ($workers as $worker)
@@ -54,9 +55,9 @@
                                 </div>
                             </div>
                             <div class="m-3">
-                                <label for="from_material_id" class="form-label">От материал*</label>
+                                <label for="from_material_id" class="form-label">{{ __('app.fields.from_material') }}*</label>
                                 <select class="form-select" id="from_material_id" name="from_material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('from_material_id') == $material->id ? 'selected' : '' }}>
@@ -66,14 +67,15 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="wasted_quantity" class="form-label">Изхвърлено количество (боклук)*</label>
+                                <label for="wasted_quantity"
+                                    class="form-label">{{ __('app.fields.discarded_quantity') }}*</label>
                                 <input type="text" class="form-control" id="wasted_quantity" name="wasted_quantity"
                                     value="{{ old('wasted_quantity') }}">
                             </div>
                             <div class="m-3">
-                                <label for="to_material_id" class="form-label">Получен материал*</label>
+                                <label for="to_material_id" class="form-label">{{ __('app.fields.to_material') }}*</label>
                                 <select class="form-select" id="to_material_id" name="to_material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('to_material_id') == $material->id ? 'selected' : '' }}>
@@ -83,14 +85,14 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Получено количество*</label>
+                                <label for="quantity" class="form-label">{{ __('app.fields.quantity_received') }}*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -103,11 +105,11 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Сортиран от</th>
-                        <th scope="col">От материал</th>
-                        <th scope="col">Получен материал</th>
-                        <th scope="col">Получено количество</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.sorted_by') }}</th>
+                        <th scope="col">{{ __('app.fields.from_material') }}</th>
+                        <th scope="col">{{ __('app.fields.to_material') }}</th>
+                        <th scope="col">{{ __('app.fields.quantity_received') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -116,8 +118,8 @@
                         <tr>
                             <td class="align-middle">{{ $sortedMaterial->sorted_on }}</td>
                             <td class="align-middle">{{ $sortedMaterial->workers->implode('name', ', ') }}</td>
-                            <td class="align-middle">{{ $sortedMaterial->from_material->name_and_code }}</td>
-                            <td class="align-middle">{{ $sortedMaterial->to_material->name_and_code }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->from_material?->name_and_code }}</td>
+                            <td class="align-middle">{{ $sortedMaterial->to_material?->name_and_code }}</td>
                             <td class="align-middle">{{ $sortedMaterial->quantity }}</td>
                             <td class="align-middle">
                                 <form action="/delete-sorted-material/{{ $sortedMaterial->id }}" method="post">@csrf

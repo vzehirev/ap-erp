@@ -9,14 +9,15 @@
     {{-- Buy material form --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeSoldMaterial">
-            Добави продаден материал +
+            {{ __('app.add.sold') }} +
         </button>
         <div class="modal fade" id="storeSoldMaterial" tabindex="-1" aria-labelledby="storeSoldMaterialLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storeSoldMaterialLabel">Добави продаден материал</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storeSoldMaterialLabel">{{ __('app.add.sold') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,14 +32,14 @@
                         <form class="d-flex text-center flex-column" action="/sold-materials" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="sold_on" class="form-label">Дата*</label>
+                                <label for="sold_on" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="sold_on" name="sold_on"
                                     value="{{ old('sold_on') }}">
                             </div>
                             <div class="m-3">
-                                <label for="partner_id" class="form-label">Продаден на*</label>
+                                <label for="partner_id" class="form-label">{{ __('app.fields.sold_to') }}*</label>
                                 <select class="form-select" id="partner_id" name="partner_id">
-                                    <option selected>Избери партньор</option>
+                                    <option selected>{{ __('app.choose.partner') }}</option>
                                     @foreach ($partners as $partner)
                                         <option value="{{ $partner->id }}"
                                             {{ old('partner_id') == $partner->id ? 'selected' : '' }}>
@@ -48,9 +49,9 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="material_id" class="form-label">Продаден материал*</label>
+                                <label for="material_id" class="form-label">{{ __('app.fields.sold_material') }}*</label>
                                 <select class="form-select" id="material_id" name="material_id">
-                                    <option selected>Избери материал</option>
+                                    <option selected>{{ __('app.choose.material') }}</option>
                                     @foreach ($materials as $material)
                                         <option value="{{ $material->id }}"
                                             {{ old('material_id') == $material->id ? 'selected' : '' }}>
@@ -60,29 +61,29 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Цена*</label>
+                                <label for="price" class="form-label">{{ __('app.fields.price') }}*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
                             </div>
                             <div class="m-3">
-                                <label for="quantity" class="form-label">Продадено количество*</label>
+                                <label for="quantity" class="form-label">{{ __('app.fields.sold_quantity') }}*</label>
                                 <input type="text" class="form-control" id="quantity" name="quantity"
                                     value="{{ old('quantity') }}">
                             </div>
                             <div class="m-3">
                                 <input class="form-check-input" type="checkbox" id="paid" name="paid" value="1"
                                     {{ old('paid') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="flexCheckDefault">Платен</label>
+                                <label class="form-check-label" for="flexCheckDefault">{{ __('app.fields.paid') }}</label>
                             </div>
                             <div class="m-3">
-                                <label for="invoice_num" class="form-label">Номер на фактура</label>
+                                <label for="invoice_num" class="form-label">{{ __('app.fields.invoice_number') }}</label>
                                 <input type="text" class="form-control" id="invoice_num" name="invoice_num"
                                     value="{{ old('invoice_num') }}">
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -94,14 +95,14 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Продаден на</th>
-                        <th scope="col">Продаден материал</th>
-                        <th scope="col">Код</th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Продадено количество</th>
-                        <th scope="col">Платен</th>
-                        <th scope="col">Фактура №</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.sold_to') }}</th>
+                        <th scope="col">{{ __('app.fields.sold_material') }}</th>
+                        <th scope="col">{{ __('app.fields.code') }}</th>
+                        <th scope="col">{{ __('app.fields.price') }}</th>
+                        <th scope="col">{{ __('app.fields.sold_quantity') }}</th>
+                        <th scope="col">{{ __('app.fields.paid') }}</th>
+                        <th scope="col">{{ __('app.fields.invoice') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -114,7 +115,7 @@
                             <td class="align-middle">{{ $soldMaterial->material->code }}</td>
                             <td class="align-middle">{{ $soldMaterial->price }}</td>
                             <td class="align-middle">{{ $soldMaterial->quantity }}</td>
-                            <td class="align-middle">{{ $soldMaterial->paid ? 'Дa' : 'Не' }}</td>
+                            <td class="align-middle">{{ $soldMaterial->paid ? __('app.yes') : __('app.no') }}</td>
                             <td class="align-middle">{{ $soldMaterial->invoice_num }}</td>
                             <td class="align-middle">
                                 <form action="/delete-sold-material/{{ $soldMaterial->id }}" method="post">@csrf

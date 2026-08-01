@@ -1,84 +1,52 @@
 <?php
 
 use App\Http\Controllers\ExpensesController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\OthersController;
 use App\Http\Controllers\PrepaidController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SalariesController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web routes - read-only demo
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| The original registers 41 routes: 16 readable ones and 25 POSTs, 24 of which
+| write. Every POST is gone from this branch, along with the guest group that
+| held /login and /register. What is left is the fourteen pages a visitor can
+| look at.
+|
+| Two changes from the original, both deliberate:
+|
+|   - /reports was a POST that only read. It is a GET here, so the demo can
+|     enforce "GET and HEAD only" with no exceptions and a filtered report is a
+|     shareable link.
+|   - /privacy is new. The demo sets cookies, so it says so.
+|
+| There is no auth middleware because there is no authentication: DemoVisitor
+| signs every request in as the seeded user before routing.
 |
 */
 
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [UsersController::class, 'indexRegister']);
-    Route::post('/register', [UsersController::class, 'storeRegister']);
+Route::get('/', [HomeController::class, 'index']);
 
-    Route::get('/login', [UsersController::class, 'indexLogin']);
-    Route::post('/login', [UsersController::class, 'storeLogin']);
-});
+Route::get('/bought-materials', [MaterialsController::class, 'indexBoughtMaterials']);
+Route::get('/sorted-materials', [MaterialsController::class, 'indexSortedMaterials']);
+Route::get('/ground-materials', [MaterialsController::class, 'indexGroundMaterials']);
+Route::get('/washed-materials', [MaterialsController::class, 'indexWashedMaterials']);
+Route::get('/granular-materials', [MaterialsController::class, 'indexGranularMaterials']);
+Route::get('/sold-materials', [MaterialsController::class, 'indexSoldMaterials']);
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
+Route::get('/expenses', [ExpensesController::class, 'index']);
+Route::get('/salaries', [SalariesController::class, 'index']);
+Route::get('/prepaid', [PrepaidController::class, 'index']);
 
-    Route::post('/logout', [UsersController::class, 'storeLogout']);
+Route::get('/available-materials', [ReportsController::class, 'indexAvailableMaterials']);
+Route::get('/reports', [ReportsController::class, 'index']);
 
-    Route::get('/bought-materials', [MaterialsController::class, 'indexBoughtMaterials']);
-    Route::post('/bought-materials', [MaterialsController::class, 'storeBoughtMaterial']);
-    Route::post('/delete-bought-material/{bought_material}', [MaterialsController::class, 'deleteBoughtMaterial']);
+Route::get('/others', [OthersController::class, 'index']);
 
-    // Route::get('/wasted-materials', [MaterialsController::class, 'indexWastedMaterials']);
-    // Route::post('/wasted-materials', [MaterialsController::class, 'storeWastedMaterial']);
-
-    Route::get('/sorted-materials', [MaterialsController::class, 'indexSortedMaterials']);
-    Route::post('/sorted-materials', [MaterialsController::class, 'storeSortedMaterial']);
-    Route::post('/delete-sorted-material/{sorted_material}', [MaterialsController::class, 'deleteSortedMaterial']);
-
-    Route::get('/ground-materials', [MaterialsController::class, 'indexGroundMaterials']);
-    Route::post('/ground-materials', [MaterialsController::class, 'storeGroundMaterial']);
-    Route::post('/delete-ground-material/{ground_material}', [MaterialsController::class, 'deleteGroundMaterial']);
-
-    Route::get('/washed-materials', [MaterialsController::class, 'indexWashedMaterials']);
-    Route::post('/washed-materials', [MaterialsController::class, 'storeWashedMaterial']);
-    Route::post('/delete-washed-material/{washed_material}', [MaterialsController::class, 'deleteWashedMaterial']);
-
-    Route::get('/granular-materials', [MaterialsController::class, 'indexGranularMaterials']);
-    Route::post('/granular-materials', [MaterialsController::class, 'storeGranularMaterial']);
-    Route::post('/delete-granular-material/{granular_material}', [MaterialsController::class, 'deleteGranularMaterial']);
-
-    Route::get('/sold-materials', [MaterialsController::class, 'indexSoldMaterials']);
-    Route::post('/sold-materials', [MaterialsController::class, 'storeSoldMaterial']);
-    Route::post('/delete-sold-material/{sold_material}', [MaterialsController::class, 'deleteSoldMaterial']);
-
-    Route::get('/expenses', [ExpensesController::class, 'index']);
-    Route::post('/expenses', [ExpensesController::class, 'store']);
-    Route::post('/delete-expense/{expense}', [ExpensesController::class, 'delete']);
-
-    Route::get('/salaries', [SalariesController::class, 'index']);
-    Route::post('/salaries', [SalariesController::class, 'store']);
-    Route::post('/delete-salary/{salary}', [SalariesController::class, 'delete']);
-
-    Route::get('/prepaid', [PrepaidController::class, 'index']);
-    Route::post('/prepaid', [PrepaidController::class, 'store']);
-    Route::post('/delete-prepaid/{prepaid}', [PrepaidController::class, 'delete']);
-
-    Route::get('/reports', [ReportsController::class, 'index']);
-    Route::post('/reports', [ReportsController::class, 'index']);
-    Route::get('/available-materials', [ReportsController::class, 'indexAvailableMaterials']);
-
-    Route::get('/others', [OthersController::class, 'index']);
-    Route::post('/store-partner', [OthersController::class, 'storePartner']);
-    Route::post('/store-material', [OthersController::class, 'storeMaterial']);
-    Route::post('/store-worker', [OthersController::class, 'storeWorker']);
-});
+Route::get('/privacy', [HomeController::class, 'privacy']);

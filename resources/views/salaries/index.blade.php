@@ -9,14 +9,15 @@
     {{-- Buy material form --}}
     <div class="container text-center">
         <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#storeSalary">
-            Добави заплата +
+            {{ __('app.add.salary') }} +
         </button>
         <div class="modal fade" id="storeSalary" tabindex="-1" aria-labelledby="storeSalaryLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="storeSalaryLabel">Добави заплата</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+                        <h5 class="modal-title" id="storeSalaryLabel">{{ __('app.add.salary') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ __('app.actions.close') }}"></button>
                     </div>
                     <div class="modal-body">
 
@@ -31,13 +32,13 @@
                         <form class="d-flex text-center flex-column" action="/salaries" method="post">
                             @csrf
                             <div class="m-3">
-                                <label for="date" class="form-label">Дата*</label>
+                                <label for="date" class="form-label">{{ __('app.fields.date') }}*</label>
                                 <input type="date" class="form-control" id="date" name="date" value="{{ old('date') }}">
                             </div>
                             <div class="m-3">
-                                <label for="worker_id" class="form-label">Служител*</label>
+                                <label for="worker_id" class="form-label">{{ __('app.fields.worker') }}*</label>
                                 <select class="form-select" id="worker_id" name="worker_id">
-                                    <option selected>Избери служител</option>
+                                    <option selected>{{ __('app.choose.worker') }}</option>
                                     @foreach ($workers as $worker)
                                         <option value="{{ $worker->id }}"
                                             {{ old('worker_id') == $worker->id ? 'selected' : '' }}>{{ $worker->name }}
@@ -46,19 +47,19 @@
                                 </select>
                             </div>
                             <div class="m-3">
-                                <label for="price" class="form-label">Сума*</label>
+                                <label for="price" class="form-label">{{ __('app.fields.amount') }}*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}">
                             </div>
                             <div class="m-3">
                                 <input class="form-check-input" type="checkbox" id="paid" name="paid" value="1"
                                     {{ old('paid') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="flexCheckDefault">Платена</label>
+                                <label class="form-check-label" for="flexCheckDefault">{{ __('app.fields.paid_salary') }}</label>
                             </div>
                             <div class="d-flex flex-row justify-content-center">
                                 <button type="button" class="btn btn-outline-danger m-3"
-                                    data-bs-dismiss="modal">Затвори</button>
-                                <button type="submit" class="btn btn-success m-3">Добави</button>
+                                    data-bs-dismiss="modal">{{ __('app.actions.close') }}</button>
+                                <button type="submit" class="btn btn-success m-3">{{ __('app.actions.add') }}</button>
                             </div>
                         </form>
                     </div>
@@ -70,10 +71,10 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Служител</th>
-                        <th scope="col">Сума</th>
-                        <th scope="col">Платена</th>
+                        <th scope="col">{{ __('app.fields.date') }}</th>
+                        <th scope="col">{{ __('app.fields.worker') }}</th>
+                        <th scope="col">{{ __('app.fields.amount') }}</th>
+                        <th scope="col">{{ __('app.fields.paid_salary') }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -83,7 +84,7 @@
                             <td class="align-middle">{{ $salary->date }}</td>
                             <td class="align-middle">{{ $salary->worker->name }}</td>
                             <td class="align-middle">{{ $salary->price }}</td>
-                            <td class="align-middle">{{ $salary->paid ? 'Да' : 'Не' }}</td>
+                            <td class="align-middle">{{ $salary->paid ? __('app.yes') : __('app.no') }}</td>
                             <td class="align-middle">
                                 <form action="/delete-salary/{{ $salary->id }}" method="post">@csrf
                                     <button type="submit" id="confirm-delete" class="btn btn-outline-danger">X</button>

@@ -8,9 +8,9 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Материал</th>
-                        <th scope="col">Код</th>
-                        <th scope="col">Налично количество</th>
+                        <th scope="col">{{ __('app.fields.material') }}</th>
+                        <th scope="col">{{ __('app.fields.code') }}</th>
+                        <th scope="col">{{ __('app.fields.available_quantity') }}</th>
                     </tr>
                 </thead>
                 <tbody>
