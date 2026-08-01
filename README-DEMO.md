@@ -233,12 +233,21 @@ The image is `php:8.4-fpm-alpine` plus nginx, with php-fpm on `pm = ondemand` so
 nothing is resident until the first request. Vendor is 23 MB and there is no
 Node in the build.
 
-**These are the numbers I have not measured.** There is no Docker on the machine
-this branch was built on, so the image size and the memory ceiling are estimates
-rather than observations — run `docker images` and `docker stats` once and set
-the Coolify limit from what you see, rather than from a guess. Everything else
-in this document was measured: the application was installed, migrated, seeded,
-rendered and crawled on PHP 8.4 before it was committed.
+**Measured on the deployed container: 38.75 MiB resident**, against 116.9 MiB
+for the .NET demo running beside it on the same host. `pm = ondemand` is most of
+the difference — no worker exists until a request arrives, and they exit again
+after twenty seconds idle.
+
+**Set the Coolify memory limit to 256 MiB.** That is about six times idle, which
+covers the full six-worker pool with room to spare. The real ceiling is lower
+than the arithmetic suggests, because nginx caps sustained traffic at two
+requests a second and a page renders in tens of milliseconds, so concurrency
+rarely reaches two workers. 128 MiB would probably hold, but the margin over a
+full pool gets thin and the failure mode is an OOM kill rather than a slow page.
+
+A note for anyone tuning the other services: Docker's `--memory` is a cap, not a
+reservation. Lowering an over-generous limit on a container that is nowhere near
+it frees nothing.
 
 ## Things worth knowing
 
