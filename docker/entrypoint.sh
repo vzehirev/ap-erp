@@ -24,7 +24,15 @@ if [ -z "${APP_KEY:-}" ]; then
 fi
 
 if [ "$(id -u)" = '0' ]; then
+    # The DIRECTORY has to be writable while seeding, not just the file.
+    # SQLite creates its rollback journal alongside the database for every write
+    # transaction, so a database file the seeding user owns inside a directory
+    # it does not own fails with the same "attempt to write a readonly database"
+    # as a genuinely read-only file - which is a confusing way to find out.
+    # Both are locked down together once the seeding is finished.
     mkdir -p "$DB_DIR"
+    chown demo:demo "$DB_DIR"
+    chmod 0755 "$DB_DIR"
 
     rm -f "$DB_PATH" "$DB_PATH-wal" "$DB_PATH-shm" "$DB_PATH-journal"
     install -o demo -g demo -m 0644 /dev/null "$DB_PATH"
@@ -37,7 +45,7 @@ if [ "$(id -u)" = '0' ]; then
     su-exec demo php /app/artisan db:seed --force --no-interaction
 
     # No WAL: a database in WAL mode cannot be opened without write access to
-    # its directory, which would defeat the point of the next two lines.
+    # its directory, which would defeat the point of the next few lines.
     su-exec demo php -r '
         $pdo = new PDO("sqlite:" . $argv[1]);
         $pdo->exec("PRAGMA wal_checkpoint(TRUNCATE)");
@@ -47,14 +55,27 @@ if [ "$(id -u)" = '0' ]; then
 
     rm -f "$DB_PATH-wal" "$DB_PATH-shm" "$DB_PATH-journal"
 
-    chown root:root "$DB_PATH"
+    # Refuse to serve an empty database rather than a site full of empty tables.
+    ROWS="$(su-exec demo php -r '
+        $pdo = new PDO("sqlite:" . $argv[1]);
+        echo (int) $pdo->query("select count(*) from bought_materials")->fetchColumn();
+    ' "$DB_PATH")"
+
+    if [ "$ROWS" -lt 1 ]; then
+        echo "entrypoint: the database seeded no movements, refusing to start" >&2
+        exit 1
+    fi
+
+    # Now make it unwritable, file and directory both, and hand it to root so
+    # the account serving requests cannot chmod it back.
+    chown root:root "$DB_PATH" "$DB_DIR"
     chmod 0444 "$DB_PATH"
     chmod 0555 "$DB_DIR"
 
     mkdir -p /tmp/nginx-client /tmp/nginx-proxy /tmp/nginx-fastcgi /tmp/nginx-uwsgi /tmp/nginx-scgi
-    chown -R demo:demo /tmp/nginx-* 2>/dev/null || true
+    chown -R demo:demo /tmp/nginx-client /tmp/nginx-proxy /tmp/nginx-fastcgi /tmp/nginx-uwsgi /tmp/nginx-scgi
 
-    echo "demo database built: $(su-exec demo stat -c '%s bytes, mode %a, owner %U' "$DB_PATH")"
+    echo "entrypoint: database built, ${ROWS} purchases, $(stat -c '%s bytes, mode %a, owner %U' "$DB_PATH")"
 
     exec su-exec demo "$0" "$@"
 fi

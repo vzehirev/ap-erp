@@ -72,7 +72,13 @@ RUN rm -f /app/.env /app/database/*.sqlite \
     && rm -rf /app/docker /app/.git \
     && php artisan route:cache \
     && php artisan view:cache \
-    && chmod -R a-w /app
+    && chmod -R a-w /app \
+    # Serving pre-compiled views writes nothing - that was measured across every
+    # page in both locales. This directory stays writable anyway, as a safety
+    # valve: if some view ever does miss the cache, the alternative to writing
+    # one file is a 500 on a public page.
+    && chown -R demo:demo /app/storage/framework/views \
+    && chmod -R u+w /app/storage/framework/views
 
 EXPOSE 8080
 
