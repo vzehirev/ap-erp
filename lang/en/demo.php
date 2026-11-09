@@ -6,7 +6,7 @@ return [
 
     'title' => 'Materials ERP — read-only demo',
 
-    'lead' => 'This is the production system a small plastics reprocessing plant ran on: bales come in, get sorted, washed, ground and granulated, and go out as sellable material. Every movement is weighed and booked, and the reports add it all up. It is republished here as a public preview.',
+    'lead' => 'This is the production system a small plastics reprocessing plant runs on: bales come in, get sorted, washed, ground and granulated, and go out as sellable material. Every movement is weighed and booked, and the reports add it all up. It is republished here as a public preview.',
 
     'read_first' => 'Please read before you click around',
 
